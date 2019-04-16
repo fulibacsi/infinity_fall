@@ -28,6 +28,14 @@ var utils = new function() {
         }, 300);
     }
 
+    this.speed_up_time = function() {
+        generator_tick_time = Math.floor(generator_tick_time / 2);
+        generators.forEach(generator => {
+            clearInterval(generator.obj.tick);
+            generator.obj.set_tick(generator.obj, generator_tick_time)
+        });   
+    }
+
     this.improve = function(obj) {
         obj.improve();
         obj.renew_display();

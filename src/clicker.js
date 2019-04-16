@@ -173,7 +173,11 @@ class Generator
 		this.area.append(document.createElement("br"));
 
 		// keep producing
-        setInterval(this.produce.bind(this), 1000);
+        this.set_tick(this, generator_tick_time);
+	}
+
+	set_tick(self, interval) {
+		self.tick = setInterval(self.produce.bind(self), interval);
 	}
 
 	get_price() {
@@ -216,6 +220,7 @@ class Generator
 function renew_resources() {
 	cookies_display.innerHTML = resource;
 	cookies_produced_display.innerHTML = resource_produced;
+	altogether_productivity_display.innerHTML = altogether_productivity;
 
 	improvements.forEach(improvement => {
 		if(this.resource_produced >= improvement.threshold

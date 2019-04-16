@@ -8,6 +8,14 @@
                                     supported by Chrome and Opera */
 }
 
+.main_resource {
+    font-weight: bold;
+    padding: 2px 5px;
+    margin: 2px 5px;
+    border: solid 1px;
+    display: inline-block;
+}
+
 #canvas {
     cursor: pointer;
 }

@@ -1,18 +1,29 @@
 
 
-// cookies
+// resources
 var resource = 0;
 var resource_produced = 0;
 var altogether_productivity = 0; // counts productivity of buildings except clicker
 
 var cookies_display = document.getElementById("dBs");
 var cookies_produced_display = document.getElementById("dBs_shouted");
+var altogether_productivity_display = document.getElementById("altogether_productivity");
 
 var improvement_elements = document.getElementById("improvements");
 var generator_elements = document.getElementById("generators");
 
-clicker = new Clicker();
+// tick times
+var generator_tick_time = 1000;
+var interface_tick_time = 500;
+var anim_tick_time = 100;
 
+
+// clickers
+var clickers = [];
+var clicker = new Clicker();
+
+
+// improvements
 var improvements = [
     // TIER 0
     {
@@ -27,7 +38,7 @@ var improvements = [
     {
         'id': 'Subtitles',
         'obj': new Improvement("Subtitles", 1, 50, 1.15, clicker, utils.add_subtitle),
-        'threshold': 50,
+        'threshold': 20,
         'req_improvements': ['Earplug'],
         'req_generators': [],
         'enabled': 0
@@ -35,14 +46,33 @@ var improvements = [
     {
         'id': 'Loudspeaker',
         'obj': new Improvement("Loudspeaker", false, 20, 1.25, clicker, utils.improve),
-        'threshold': 20,
+        'threshold': 70,
         'req_improvements': [],
         'req_generators': [],
         'enabled': 0
-    }
+    },
+    // TIER 2
+    {
+        'id': 'Time distortion',
+        'obj': new Improvement("Time distortion", 1, 2000000000, 1.25, false, utils.speed_up_time),
+        'threshold': 2000000000,
+        'req_improvements': [],
+        'req_generators': ['Delusions'],
+        'enabled': 0
+    },
+    // TIER 3
+    {
+        'id': 'Speed up time',
+        'obj': new Improvement("Speed up time", 1, 2000000000000, 1.25, false, utils.speed_up_time),
+        'threshold': 2000000000000,
+        'req_improvements': ['Time distortion'],
+        'req_generators': ['Imaginary Friend'],
+        'enabled': 0
+    },
 ]
 
 
+// generators
 var generators = [
     // TIER 1
     {
@@ -79,12 +109,13 @@ var generators = [
     },
     {
         'id': 'Imaginary Friend',
-        'obj': new Generator("Imaginary Friend", 10000, 199999, 1.15),
+        'obj': new Generator("Imaginary Friend", 10000, 200000, 1.15),
         'threshold': 200000,
         'req_improvements': [],
         'req_generators': ['Delusions'],
         'enabled': 0
     },
+    // TIER 2
 ]
 
 
