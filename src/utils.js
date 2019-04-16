@@ -9,8 +9,10 @@ var utils = new function() {
         console.log(param);
     }
 
-    this.mute = function(param) {
+    this.mute = function(obj) {
+        obj.mute = true;
         image_list.push(images['mute']);
+
     }
 
     this.add_subtitle = function(obj) {

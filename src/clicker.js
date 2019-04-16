@@ -4,6 +4,7 @@ class Clicker
 {
 	constructor(resource_type) {
 		this.level = 1;
+		this.mute = false;
 		this.subtitle = false;
 		this.resource = resource_type;
 		this.productivity_display = document.getElementById("clicker_productivity");
@@ -14,6 +15,9 @@ class Clicker
 	click() {
 		resource += this.get_production_value();
 		resource_produced += this.get_production_value();
+		if (!this.mute) {
+			sounds.play_random_sound(shouts);
+		}
 		if (this.subtitle) {
 			console.log('A'.repeat(this.level));
 			utils.show_subtitle('A'.repeat(this.level));
@@ -80,15 +84,15 @@ class Improvement
 	}
 
 	get_price() {
-		return Math.floor(this.price * Math.pow(this.price_groth_rate, this.level))
+		return Math.floor(this.price * Math.pow(this.price_groth_rate, this.level));
 	}
 
 	improve() {
-		if(resource >= this.price && this.not_maxed()) {
-			resource -= this.price;
+		if(resource >= this.get_price() && this.not_maxed()) {
+			console.log(this.name, 'levelled up [', this.price, 'cost /', resource, 'resource]: ', this.level + 1);
+			resource -= this.get_price();
 			this.level += 1;
 			this.effect(this.target);
-			this.price = Math.floor(this.price * Math.pow(1.15, this.level));
 			this.renew_display();
 		}
 
@@ -178,6 +182,7 @@ class Generator
 
 	improve() {
 		if(resource >= this.get_price()) {
+			console.log(this.name, 'levelled up [', this.price, 'cost /', resource, 'resource]: ', this.level + 1);
 			resource -= this.get_price();
 			this.level += 1;
 			altogether_productivity += this.productivity;

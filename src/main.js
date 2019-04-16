@@ -14,14 +14,16 @@ var generator_elements = document.getElementById("generators");
 clicker = new Clicker();
 
 var improvements = [
+    // TIER 0
     {
         'id': 'Earplug',
-        'obj': new Improvement("Earplug", 1, 10, 1.15, false, utils.mute),
+        'obj': new Improvement("Earplug", 1, 10, 1.15, clicker, utils.mute),
         'threshold': 10,
         'req_improvements': [],
         'req_generators': [],
         'enabled': 0
     },
+    // TIER 1
     {
         'id': 'Subtitles',
         'obj': new Improvement("Subtitles", 1, 50, 1.15, clicker, utils.add_subtitle),
@@ -42,11 +44,12 @@ var improvements = [
 
 
 var generators = [
+    // TIER 1
     {
         'id': 'Echo',
         'obj': new Generator("Echo", 1, 20, 1.15),
         'threshold': 20,
-        'req_improvements': [],
+        'req_improvements': ['Loudspeaker'],
         'req_generators': [],
         'enabled': 0
     },
@@ -105,6 +108,9 @@ var texts = {
     'A': ['AAAAAAA', '#FFFFFF', [60, 60]]
 }
 var text_list = [];
+
+// sounds
+var shouts = sounds.load_sounds();
 
 // clicking loop
 setInterval(renew_resources, 500);
