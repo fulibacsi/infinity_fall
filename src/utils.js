@@ -21,7 +21,7 @@ var utils = new function() {
     this.show_subtitle = function(text) {
         var subtitle =  [text, '#FFFFFF', [60, 60]];
         text_list.push(subtitle);
-        setTimeout(function() { 
+        setTimeout(function() {
             text_list.pop();
         }, 300);
     }
@@ -29,6 +29,30 @@ var utils = new function() {
     this.improve = function(obj) {
         obj.improve();
         obj.renew_display();
+    }
+
+    this.getitem = function(list, val, key) {
+        // returns listitem[key] == val from list if it can be found, otherwise false
+        for (item of list) {
+            if (item[key] == val) {
+                return item;
+            }
+        };
+        return false;
+    }
+
+    this.check_preqs = function(req_improvements, req_generators) {
+        for (req of req_improvements) {
+            req_item = utils.getitem(improvements, req, 'id');
+            return req_item !== false && req_item.enabled == 1 && req_item.obj.level > 0;
+        }
+
+        for (req of req_generators) {
+            req_item = utils.getitem(generators, req, 'id');
+            return req_item !== false && req_item.enabled == 1 && req_item.obj.level > 0;
+        };
+
+        return true;
     }
 
     this.reveal = function(id) {

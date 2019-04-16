@@ -42,10 +42,10 @@ class Improvement
 		this.name = name;
 		this.level = 0;
 		this.maxlevel = maxlevel;
-		
+
 		this.price = price;
 		this.price_groth_rate = price_groth_rate;
-		
+
 		this.target = target;
 		this.effect = effect;
 
@@ -64,7 +64,7 @@ class Improvement
 		this.button.id = this.name + '_button'
 		this.button.innerHTML = "Improve";
 		this.button.onclick = this.improve.bind(this);
-		
+
 		// put together
 		this.area.append(document.createTextNode(name + " Level: "));
 		this.area.append(this.level_display);
@@ -80,15 +80,15 @@ class Improvement
 	}
 
 	get_price() {
-		return Math.floor(this.price + Math.pow(this.price_groth_rate, this.level))
+		return Math.floor(this.price * Math.pow(this.price_groth_rate, this.level))
 	}
 
 	improve() {
 		if(resource >= this.price && this.not_maxed()) {
 			resource -= this.price;
 			this.level += 1;
-			this.price += Math.floor(Math.pow(1.15, this.level));
 			this.effect(this.target);
+			this.price = Math.floor(this.price * Math.pow(1.15, this.level));
 			this.renew_display();
 		}
 
@@ -167,15 +167,15 @@ class Generator
 		this.area.append(this.button);
 		this.area.append(document.createElement("br"));
 		this.area.append(document.createElement("br"));
-		
+
 		// keep producing
         setInterval(this.produce.bind(this), 1000);
 	}
-	
+
 	get_price() {
-		return Math.floor(this.price + Math.pow(this.price_groth_rate, this.level))
+		return Math.floor(this.price * Math.pow(this.price_groth_rate, this.level))
 	}
-	
+
 	improve() {
 		if(resource >= this.get_price()) {
 			resource -= this.get_price();
@@ -201,7 +201,7 @@ class Generator
 		resource += this.get_production_value();
 		resource_produced += this.get_production_value();
 	}
-	
+
 	get_production_value() {
 		return this.level * this.productivity;
 	}
@@ -211,9 +211,11 @@ class Generator
 function renew_resources() {
 	cookies_display.innerHTML = resource;
 	cookies_produced_display.innerHTML = resource_produced;
-	
+
 	improvements.forEach(improvement => {
-		if(this.resource_produced >= improvement.threshold && improvement.enabled == 0) {
+		if(this.resource_produced >= improvement.threshold
+		   && improvement.enabled == 0
+		   && utils.check_preqs(improvement.req_improvements, improvement.req_generators)) {
 			improvement.obj.set_visible();
 			improvement.enabled = 1;
 		}
@@ -227,9 +229,10 @@ function renew_resources() {
 		}
 	});
 
-	// TODO: complex unlock conditions
 	generators.forEach(generator => {
-		if(this.resource_produced >= generator.threshold && generator.enabled == 0) {
+		if(this.resource_produced >= generator.threshold
+		   && generator.enabled == 0
+		   && utils.check_preqs(generator.req_improvements, generator.req_generators)) {
 			generator.obj.set_visible();
 			generator.enabled = 1;
 		}

@@ -15,47 +15,71 @@ clicker = new Clicker();
 
 var improvements = [
     {
-        'obj': new Improvement("Earplug", 1, 9, 1.15, false, utils.mute),
+        'id': 'Earplug',
+        'obj': new Improvement("Earplug", 1, 10, 1.15, false, utils.mute),
         'threshold': 10,
-        'enabled': 0 
+        'req_improvements': [],
+        'req_generators': [],
+        'enabled': 0
     },
     {
-        'obj': new Improvement("Subtitles", 1, 49, 1.15, clicker, utils.add_subtitle),
+        'id': 'Subtitles',
+        'obj': new Improvement("Subtitles", 1, 50, 1.15, clicker, utils.add_subtitle),
         'threshold': 50,
-        'enabled': 0 
+        'req_improvements': ['Earplug'],
+        'req_generators': [],
+        'enabled': 0
     },
     {
-        'obj': new Improvement("Loudspeaker", false, 19, 1.25, clicker, utils.improve),
+        'id': 'Loudspeaker',
+        'obj': new Improvement("Loudspeaker", false, 20, 1.25, clicker, utils.improve),
         'threshold': 20,
-        'enabled': 0 
+        'req_improvements': [],
+        'req_generators': [],
+        'enabled': 0
     }
 ]
 
 
 var generators = [
     {
-        'obj': new Generator("Repeater", 1, 19, 1.15),
+        'id': 'Echo',
+        'obj': new Generator("Echo", 1, 20, 1.15),
         'threshold': 20,
+        'req_improvements': [],
+        'req_generators': [],
         'enabled': 0
     },
     {
-        'obj': new Generator("Feedback loop", 10, 199, 1.15),
+        'id': 'Repeater',
+        'obj': new Generator("Repeater", 10, 200, 1.15),
         'threshold': 200,
-        'enabled': 0 
+        'req_improvements': [],
+        'req_generators': ['Echo'],
+        'enabled': 0
     },
     {
-        'obj': new Generator("Factory", 100, 1999, 1.15),
+        'id': 'Feedback Loop',
+        'obj': new Generator("Feedback Loop", 100, 2000, 1.15),
         'threshold': 2000,
+        'req_improvements': [],
+        'req_generators': ['Repeater'],
         'enabled': 0
     },
     {
-        'obj': new Generator("Cookie Tesla", 1000, 19999, 1.15),
+        'id': 'Delusions',
+        'obj': new Generator("Delusions", 1000, 20000, 1.15),
         'threshold': 20000,
+        'req_improvements': [],
+        'req_generators': ['Feedback Loop'],
         'enabled': 0
     },
     {
-        'obj': new Generator("Cookie Gigant", 10000, 199999, 1.15),
+        'id': 'Imaginary Friend',
+        'obj': new Generator("Imaginary Friend", 10000, 199999, 1.15),
         'threshold': 200000,
+        'req_improvements': [],
+        'req_generators': ['Delusions'],
         'enabled': 0
     },
 ]
