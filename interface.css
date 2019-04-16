@@ -1,0 +1,36 @@
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}
+
+#canvas {
+    cursor: pointer;
+}
+
+.button {
+    cursor: pointer;
+    background-color: rgb(140, 140, 140);
+    border: none;
+    color: white;
+    padding: 2px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.disabled {
+    background-color: rgb(240, 240, 240);
+    color: black;
+    text-decoration: line-through;
+}
+
+
