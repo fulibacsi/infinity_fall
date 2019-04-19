@@ -217,10 +217,71 @@ class Generator
 }
 
 
+class Event {
+
+	constructor(name, conditions, handler, params) {
+		this.name = name;
+		this.conditions = conditions;
+		this.handler = handler;
+		this.params=params;
+	}
+
+	check() {
+		var cond = true;
+		this.conditions.forEach( condition => {
+			console.log('[Evaluating]', condition.variable, condition.relation, condition.value);
+			var variable = window[condition.variable];
+			var local_cond = false;
+			switch(condition.relation) {
+				case '==': 
+					local_cond = variable == condition.value;
+					break;
+				case '!=':
+					local_cond = variable != condition.value;
+					break;
+				case '<':
+					local_cond = variable < condition.value;
+					break;
+				case '<=':
+					local_cond = variable <= condition.value;
+					break;
+				case '>':
+					local_cond = variable > condition.value;
+					break;
+				case '>=':
+					local_cond = variable >= condition.value;
+					break;
+				case 'is':
+					local_cond = variable === condition.value;
+					break;
+				case 'is not':
+					local_cond = variable !== condition.value;
+					break;
+			}
+			console.log('[Result]', local_cond);
+			cond = cond && local_cond;
+		}) 	
+		return cond;
+	}
+
+	trigger() {
+		console.log(this.name, 'event triggered.');
+		this.handler(this.params);
+	}
+}
+
+
 function renew_resources() {
 	cookies_display.innerHTML = resource;
 	cookies_produced_display.innerHTML = resource_produced;
 	altogether_productivity_display.innerHTML = altogether_productivity;
+
+	events.forEach(event => {
+		console.log('Checking', event.id);
+		if (event.obj.check()) {
+			event.obj.trigger();
+		}
+	})
 
 	improvements.forEach(improvement => {
 		if(this.resource_produced >= improvement.threshold

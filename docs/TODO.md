@@ -3,6 +3,7 @@ TODO
 
 TECH
 ----
+- JS a játék legelején csak az animáció látszódjon! [DONE]
 - HTML, JS áltnevezni a cookie-kat resource-ra
 - JS CSS olvasható számformátum
 - JS int overflow?
@@ -20,7 +21,7 @@ TECH
     - pain
     - follower
     - human / imp population
-- JS event handling
+- JS event handling [DONE]
 - JS jobb klikk custom command
 - JS main.js szétbontása
     - clickers

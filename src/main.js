@@ -22,6 +22,15 @@ var anim_tick_time = 100;
 var clickers = [];
 var clicker = new Clicker();
 
+// events
+var events = [
+    // TIER 0
+    {
+        'id': 'init_click',
+        'obj': new Event('init game', [{'variable': 'resource_produced', 'relation': '>=', 'value': 1}], utils.reveal, 'interface'),
+        'enabled': 0
+    }
+]
 
 // improvements
 var improvements = [
