@@ -12,4 +12,7 @@ var sounds = new function() {
         audio = sounds[utils.randint(0, sounds.length)];
         audio.play();
     }
-}
+};
+
+// sounds
+var shouts = sounds.load_sounds();

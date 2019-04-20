@@ -4,28 +4,39 @@
 		<link rel="stylesheet" type="text/css" href="interface.css" />
 	</head>
 	<body class='noselect'>
-		<div class='main'>
+		<div class='main row'>
 			<div id='tier1' class='tier column'>
-				<div id="graphics">
-					<canvas id="canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000"></canvas>
+				<div id="tier1_graphics">
+					<canvas id="fallingman_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000"></canvas>
+					<canvas class="hidden" id="sound_canvas" width="15" height="200" style="border:1px solid #000000; background-color: #FFF"></canvas>
 				</div>
 
-				<div id="interface" class='hidden'>
-						<div class='main_resource'>deciBel: <span id="dBs"></span></div><br>
+				<div id="tier1_interface" class='hidden'>
+						<div class='tier1_resource'>deciBel: <span id="dBs"></span></div><br>
 						deciBels shouted: <span id="dBs_shouted"></span><br>
-						Volume: <span id="clicker_productivity"></span><br>
-						Shouts / sec: <span id="altogether_productivity"></span><br>
+						Volume: <span id="tier1_clicker_productivity"></span><br>
+						Shouts / sec: <span id="tier1_altogether_productivity"></span><br>
 
-						<span id="improvements"></span>
+						<hr id='tier1_improvement_separator' class="hidden">
+						<span id="tier1_improvements"></span>
 
-						<span id="generators"></span>
+						<hr id='tier1_generator_separator' class="hidden">
+						<span id="tier1_generators"></span>
 				</div>
 			</div>
 		</div>
 		<script type="text/javascript" src="src/utils.js"></script>
+
 		<script type="text/javascript" src="src/animations.js"></script>
 		<script type="text/javascript" src="src/sounds.js"></script>
-		<script type="text/javascript" src="src/clicker.js"></script>
+		
+		<script type="text/javascript" src="src/globals.js"></script>
+		
+		<script type="text/javascript" src="src/clickers.js"></script>
+		<script type="text/javascript" src="src/improvements.js"></script>
+		<script type="text/javascript" src="src/generators.js"></script>
+		<script type="text/javascript" src="src/events.js"></script>
+		
 		<script type="text/javascript" src="src/main.js"></script>
 	</body>
 </html>

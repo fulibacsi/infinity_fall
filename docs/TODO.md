@@ -4,26 +4,31 @@ TODO
 TECH
 ----
 - JS a játék legelején csak az animáció látszódjon! [DONE]
-- HTML, JS áltnevezni a cookie-kat resource-ra
+- HTML, JS áltnevezni a cookie-kat resource-ra [DONE]
 - JS CSS olvasható számformátum
 - JS int overflow?
-- JS span-okba tenni a létrehozott DOM-ot, hogy lehessen egyben kezelni
-- JS fix: hide
+- JS span-okba tenni a létrehozott DOM-ot, hogy lehessen egyben kezelni [DONE]
+- JS fix: hide [DONE]
 - JS időgyorsítást megoldani [DONE]
 - JS új canvas: progressbar, függőleges, custom
+- HMTL, JS elemek elnevezése (tier1-tier3) [DONE]
+- JS revew_resources átnevezése main_loop-ra [DONE]
 - HMTL képernyőkép kialakítása, oszlopok, elrendezés
 - CSS stilizálás: 
     - egységesítés
-    - imp, gen elkülönítése
+    - imp, gen elkülönítése [DONE]
     - resource-ok kiemelése
 - JS új resource-ok:
     - soul
     - pain
     - follower
     - human / imp population
-- JS event handling [DONE]
+- JS event handling
+    - resource check event condition [DONE]
+    - imp / gen check event [DONE]
+    - event check [DONE]
 - JS jobb klikk custom command
-- JS main.js szétbontása
+- JS main.js szétbontása [DONE]
     - clickers
     - improvements
     - generators
@@ -36,6 +41,9 @@ TECH
 - HMTL, JS game over implementálása
     - új screen?
     - popup?
+- JS több clicker [DONE]
+- JS fix condition checking in utils.check_preqs and utils.check_event_triggered
+
  
 
 STORY

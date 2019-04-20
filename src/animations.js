@@ -29,6 +29,7 @@ var animations = new function() {
             'height': 8
         }
         mute.source.src = './assets/imgs/mute.png'
+
         var subtitle = {
             'id': 'sub-img',
             'source': new Image(),
@@ -39,11 +40,23 @@ var animations = new function() {
         }
         subtitle.source.src = './assets/imgs/subtitle.png'
 
+        var eyes = {
+            'id': 'eye-img',
+            'source': new Image(),
+            'current': 0,
+            'total_frames': 32,
+            'width': 64,
+            'height': 32
+        }
+        eyes.source.src = './assets/imgs/eyes.png'
+
+
         return {
             'wall': [wall, [0, 0]],
             'man': [man, [70, 70]],
             'mute': [mute, [190, 190]],
-            'sub':  [subtitle, [180, 190]]
+            'sub':  [subtitle, [180, 190]],
+            'eyes': [eyes, [60, 50]]
         };
     }
 
@@ -69,8 +82,14 @@ var animations = new function() {
         // console.log('attempting to write:', text, 'to', x, y);
     }
 
-    this.flip = function(context, imgs, texts) {
-        context.clearRect(0, 0, 200, 200);
+    this.vprogressbar = function(canvas, context, tier, target) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        height = Math.max(0, canvas.height - Math.floor(canvas.height * resource[tier] / target));
+        context.fillRect(0, height, canvas.width, canvas.height);
+    }
+
+    this.flip = function(canvas, context, imgs, texts) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
         imgs.forEach(element => {
             var img = element[0];
@@ -88,3 +107,23 @@ var animations = new function() {
         });
     }
 };
+
+var images = animations.load_imgs();
+var texts = {
+    'A': ['AAAAAAA', '#FFFFFF', [60, 60]]
+}
+
+// TIER 1 CANVAS
+// canvas setup
+var fallingman_canvas = document.getElementById('fallingman_canvas');
+var fallingman_context = fallingman_canvas.getContext("2d");
+
+// initally only the falling man and the wall can be seen
+var fallingman_image_list = [images['wall'], images['man'],];
+var fallingman_text_list = [];
+
+//TIER 2 CANVAS
+// canvas setup
+var sound_canvas = document.getElementById('sound_canvas');
+var sound_context = sound_canvas.getContext("2d");
+

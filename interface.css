@@ -16,6 +16,18 @@
     display: inline-block;
 }
 
+.column {
+    float: left;
+    width: 33.33%;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
 #canvas {
     cursor: pointer;
 }
@@ -33,6 +45,7 @@
 
 .hidden {
     visibility: hidden;
+    display: none;
 }
 
 .disabled {
