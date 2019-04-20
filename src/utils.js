@@ -41,8 +41,7 @@ var utils = new function() {
     }
 
     this.change_imaginary_to_misterious = function() {
-        //node = utils.getitem(generators, 'Imaginary Friend',  'id').obj.area;
-        node = utils.getitem(generators, 'Echo',  'id').obj.area;
+        node = utils.getitem(generators, 'Imaginary Friend',  'id').obj.area;
         node.childNodes[0].replaceWith(document.createTextNode('Misterious Friend Level: '));
     }
 
