@@ -49,8 +49,8 @@ TECH
 STORY
 -----
 - 1M sikolynál progress bár, ha megtelik, jön a kérdés
-- imaginary friend-ből misterious friend lesz, halvány szempár, egy-egy kósza felirat (halvány az is)
-- az időgyorsításra gyorsuljon az anim is, és egy idő után már pörögjön a fal nagyon gyorsan
+- imaginary friend-ből misterious friend lesz, halvány szempár, egy-egy kósza felirat (halvány az is) [DONE]
+- az időgyorsításra gyorsuljon az anim is, és egy idő után már pörögjön a fal nagyon gyorsan [DONE]
 - választási lehetőség: vagy segítesz és a barátja leszel, vagy a szolgája, vagy jobb-klikk event (csak ilyenkor van bekapcsolva)
 
 
@@ -68,7 +68,7 @@ RESISTANCE STORYLINE
 - első körben: GAME OVER
 - második kör:
     - tűzbe esel, új currency: pain?
-    - fájdalmat átveheted másoktól, így új currenct: follower
+    - fájdalmat átveheted másoktól, így új currency: follower
     - ha thresholdnál több follower: - lázadás a pokolban
         - van egy teli bar, ami lassan termelődik, followerekért cserébe csökkented (update lehetőség: follower áldozás, amivel tápolod a többieket)
         - ha sikerül elfogyasztani: 
@@ -86,7 +86,7 @@ ART
 - kis ember, minimális animmal
 - tüzes gödör
 - ember az üstben
-- halvány szempár
+- halvány szempár [DONE]
 - élénk szempár
 
 opcionális:

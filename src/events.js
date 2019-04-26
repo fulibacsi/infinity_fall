@@ -116,7 +116,7 @@ var events = [
     {
         'id': 'tier1_transition_to_tier2_start',
         'tier': 'tier1',
-        'obj': new Event('tier1 transition to tier2 start', [{'key': 'tier1_misterious_eyes', 'relation': 'triggered'}], utils.turn_on_sound_progress, [100]),
+        'obj': new Event('tier1 transition to tier2 start', [{'key': 'tier1_misterious_eyes', 'relation': 'triggered'}], utils.turn_on_sound_progress, [200000000]),
         'triggered': 0
     }
 ]
