@@ -118,5 +118,45 @@ var events = [
         'tier': 'tier1',
         'obj': new Event('tier1 transition to tier2 start', [{'key': 'tier1_misterious_eyes', 'relation': 'triggered'}], utils.turn_on_sound_progress, [200000000]),
         'triggered': 0
-    }
+    },
+    {
+        'id': 'tier1_transition_to_tier2',
+        'tier': 'tier1',
+        'obj': new Event('tier1 transition to tier2', 
+                         [{'key': 'tier1_transition_to_tier2_start', 'relation': 'triggered'},
+                          {'tier': 'tier1', 'variable': 'resource', 'relation': '>=', 'value': 200000000}],
+                         utils.tier1_transition_to_tier2, []),
+        'triggered': 0
+    },
+    
+    // TIER 2
+    {
+        'id': 'tier2a_improvement_unlock',
+        'tier': 'tier2a',
+        'obj': new Event('tier2a improvements unlock', [{'tier': 'tier2a', 'variable': 'resource_produced', 'relation': '>=', 'value': 10}], utils.reveal, ['tier2a_improvement_separator']),
+        'triggered': 0
+    },
+    {
+        'id': 'tier2a_generator_unlock',
+        'tier': 'tier2a',
+        'obj': new Event('tier2a generator unlock', 
+                         [{'key': 'Wings', 'relation': 'has improvement'},
+                          {'tier': 'tier2a', 'variable': 'resource_produced', 'relation': '>=', 'value': 33}], utils.reveal, ['tier2a_generator_separator']),
+        'triggered': 0
+    },
+    {
+        'id': 'tier2a_tier3a_resource_intro',
+        'tier': 'tier2a',
+        'obj': new Event('tier2a tier3a resource intro', 
+                         [{'key': 'Demon control', 'relation': 'has improvement'},
+                          {'key': 'Demon Overlords', 'relation': 'min generator level', 'value': 33}], utils.unlock_tier3a_resource, []),
+        'triggered': 0
+    },
+    {
+        'id': 'tier2a_population_progress_bar',
+        'tier': 'tier2a',
+        'obj': new Event('tier 2a population progressbar', 
+                         [{'tier': 'tier2a', 'variable': 'resource_produced', 'relation': '>=', 'value': 1000000000}], utils.turn_on_population_progress, [7000000000]),
+        'triggered': 0
+    },
 ]

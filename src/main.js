@@ -53,10 +53,10 @@ function main_loop() {
 
 // click event
 function clicked(e){
-    e.preventDefault();
-    clickers['tier1'].click();
+	e.preventDefault();
+	clickers[e.target.getAttribute('tier')].click();
 }
-fallingman_canvas.addEventListener("click", clicked, false);
+fallingman_canvas.addEventListener("click", clicked);
 
 
 // main loop
@@ -66,4 +66,31 @@ animation_tickers = {
     'tier1': setInterval(animations.flip, anim_tick_time, 
                          fallingman_canvas, fallingman_context,
                          fallingman_image_list, fallingman_text_list),
+}
+
+
+// TESTING FUNCTIONALITY
+function enable_test() {
+	utils.getitem(events, 'initial_click', 'id').obj.trigger();
+	utils.getitem(events, 'tier1_improvement_unlock', 'id').obj.trigger();
+	utils.getitem(events, 'tier1_generator_unlock', 'id').obj.trigger();
+	utils.reveal('test');
+}
+
+// test functions
+var test_transition_button = document.getElementById('test_transition');
+test_transition_button.onclick = utils.tier1_transition_to_tier2;
+
+var test_db_set_button = document.getElementById('test_db_value_set');
+test_db_set_button.onclick = function() {
+	var value = parseInt(document.getElementById('test_db_input').value);
+	resource['tier1'] = value;
+}
+
+var test_generator = new Generator("tier1", "TEST", 1, 1, 1.0);
+var test_db_prod_set_button = document.getElementById('test_db_prod_set');
+test_db_prod_set_button.onclick = function() {
+	var value = parseInt(document.getElementById('test_db_prod_input').value);
+	test_generator.productivity = value;
+	test_generator.set_visible();
 }

@@ -24,12 +24,19 @@ class Generator
 
 		this.price_display = document.createElement("span");
 		this.price_display.id = this.name + "_price";
+		
+		this.caption = document.createElement("span");
+		this.caption.append(document.createTextNode("Buy ("));
+		this.caption.append(this.price_display);
+		this.caption.append(document.createTextNode(")"));
 
 		this.button = document.createElement("div");
 		this.button.classList.add('button');
-		this.button.id = this.name + '_button'
-		this.button.innerHTML = "Improve";
-	    this.button.onclick = this.improve.bind(this);
+		this.button.id = this.name + '_button';
+		this.button.onclick = this.improve.bind(this);
+		this.button.append(this.caption);
+
+		this.interactive_area.append(this.button);
 
 		// put together
 		this.area.append(document.createTextNode(name + " Level: "));
@@ -38,17 +45,9 @@ class Generator
 
 		this.area.append(document.createTextNode(resource_names[this.tier] + " per Second: "));
 		this.area.append(this.productivity_display);
-		this.area.append(document.createElement("br"));
-
-		this.interactive_area.append(document.createTextNode("Improvement Price: "));
-		this.interactive_area.append(this.price_display);
-		this.interactive_area.append(document.createElement("br"));
-
-		this.interactive_area.append(this.button);
-		this.interactive_area.append(document.createElement("br"));
-		this.interactive_area.append(document.createElement("br"));
 
 		this.area.append(this.interactive_area);
+		this.area.append(document.createElement("br"));
 
 		// keep producing
         this.set_tick(this, generator_tick_time);
@@ -142,5 +141,60 @@ var generators = [
         'req_generators': ['Delusions'],
         'enabled': 0
     },
-    // TIER 2
+	
+	// TIER 2
+	{
+        'id': 'Imp',
+        'tier': 'tier2a',
+        'obj': new Generator("tier2a", "Imp", 1, 66, 1.13),
+        'threshold': 33,
+        'req_improvements': ['Wings'],
+        'req_generators': [],
+        'enabled': 0
+	},
+    {
+        'id': 'Demon',
+        'tier': 'tier2a',
+        'obj': new Generator("tier2a", "Demon", 6, 333, 1.15),
+        'threshold': 99,
+        'req_improvements': ['Scythe'],
+        'req_generators': ['Imp'],
+        'enabled': 0
+    },
+    {
+        'id': 'Winged demon',
+        'tier': 'tier2a',
+        'obj': new Generator("tier2a", "Winged demon", 66, 3333, 1.17),
+        'threshold': 999,
+        'req_improvements': [],
+        'req_generators': ['Demon'],
+        'enabled': 0
+    },
+    {
+        'id': 'Balrog',
+        'tier': 'tier2a',
+        'obj': new Generator("tier2a", "Balrog", 666, 6666, 1.19),
+        'threshold': 3333,
+        'req_improvements': ['Harvest power'],
+        'req_generators': ['Winged demon'],
+        'enabled': 0
+    },
+    {
+        'id': 'Hell Lords',
+        'tier': 'tier2a',
+        'obj': new Generator("tier2a", "Hell Lords", 6666, 33333, 1.27),
+        'threshold': 20000,
+        'req_improvements': [],
+        'req_generators': ['Balrog'],
+        'enabled': 0
+    },
+    {
+        'id': 'Demon Overlords',
+        'tier': 'tier2a',
+        'obj': new Generator("tier2a", "Hell Lords", 66666, 666666, 1.27),
+        'threshold': 333333,
+        'req_improvements': [],
+        'req_generators': ['Hell Lords'],
+        'enabled': 0
+    }
 ]

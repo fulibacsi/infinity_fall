@@ -51,6 +51,131 @@ var utils = new function() {
                                                                   sound_canvas, sound_context, 'tier1', target)
     }
 
+    this.turn_on_population_progress = function(target=100) {
+        utils.reveal('soul_canvas');
+        animation_tickers['tier2a_population_progress'] = setInterval(animations.vprogressbar, anim_tick_time, 
+                                                                      soul_canvas, soul_context, 'tier2a', target)
+    }
+
+    this.filleventmodal = function(header, content, button) {
+        var modal = document.getElementById('event_modal');
+        modal.style.display = "block";
+        
+        var modalheader = document.getElementById('event_modal_h1');
+        modalheader.innerHTML = header;
+        
+        var modalcontent = document.getElementById('event_modal_content');
+        modalcontent.innerHTML = content;
+        
+        var modalbutton = document.getElementById('event_modal_close_button');
+        modalbutton.innerHTML = button;
+        modalbutton.onclick = function() {
+            modal.style.display = "none";
+        };
+    }
+
+    this.contextmenu_open = function(event) {
+        event.preventDefault();
+        var ctxMenu = document.getElementById("ctxMenu");
+        ctxMenu.style.display = "block";
+        ctxMenu.style.left = (event.pageX - 10) + "px";
+        ctxMenu.style.top = (event.pageY - 10) + "px";
+    }
+
+    this.contextmenu_click = function(event) {
+        var ctxMenu = document.getElementById("ctxMenu");
+        ctxMenu.style.display = "";
+        ctxMenu.style.left = "";
+        ctxMenu.style.top = "";
+    }
+
+    this.tier1_transition_to_tier2 = function() {
+        // disable + hide sound progress bar
+        clearInterval(animation_tickers['tier1_tier2_transition']);
+        utils.hide('sound_canvas');
+        
+        // create modal question
+        var modal = document.getElementById('question_modal');
+        modal.style.display = "block";
+
+        // register hidden context menu
+        modal.addEventListener("contextmenu", utils.contextmenu_open, false);
+        modal.addEventListener("click", utils.contextmenu_click, false);
+
+        // register button functions
+        var yesbutton = document.getElementById('question_yes_button');
+        yesbutton.onclick = utils.tier1_tier2_yes_button;
+        var nobutton = document.getElementById('question_no_button');
+        nobutton.onclick = utils.tier1_tier2_no_button;
+        var otherbutton = document.getElementById('question_other_button');
+        otherbutton.onclick = utils.tier1_tier2_rightclick;
+    }
+
+    this.tier1_tier2_yes_button = function() {
+        // close modal
+        var modal = document.getElementById('question_modal');
+        modal.style.display = "none";
+        
+        // remove eventlisteners
+        modal.removeEventListener("contextmenu", utils.contextmenu_open);
+        modal.removeEventListener("click", utils.contextmenu_click);
+        fallingman_canvas.removeEventListener("click", clicked);
+
+        // stop animations
+        clearInterval(animation_tickers['tier1']);
+        
+        // remove modal
+        modal.parentNode.removeChild(modal);
+        
+        // activate event
+        utils.filleventmodal("Good-good", "Now collect me souls!", "As you wish... Master");
+        wingedman_canvas.addEventListener("click", clicked, tier='tier2a');
+        utils.hide('tier1');
+        utils.reveal('tier2a');
+    }
+
+    this.tier1_tier2_no_button = function() {
+        // close modal
+        var modal = document.getElementById('question_modal')
+        modal.style.display = "none";
+        // remove eventlisteners
+        modal.removeEventListener("contextmenu", utils.contextmenu_open);
+        modal.removeEventListener("click", utils.contextmenu_click);
+        // remove modal
+        modal.parentNode.removeChild(modal);
+        // activate event
+        console.log('NO!');
+        var modal = document.getElementById('game_over_modal');
+        modal.style.display = "block";
+    }
+
+    this.tier1_tier2_rightclick = function() {
+        // destruct game by removing main window
+        var main_window = document.getElementById('main_window');
+        main_window.innerHTML = '';
+        // removing previous modal
+        var modal = document.getElementById('question_modal')
+        modal.style.display = "none";
+        modal.parentNode.removeChild(modal);
+        // game over modal
+        setTimeout(function() {
+            var modal = document.getElementById('game_over_modal');
+            modal.style.display = "block";
+            setTimeout(function() {
+                var endingspan = document.getElementById('ending');
+                endingspan.innerHTML = "It must've been a bad dream.<br/>That must be it...";
+                setTimeout(function() {
+                    var endingspan = document.getElementById('ending');
+                    endingspan.innerHTML = "It must've been a bad dream.<br/>That must be it... Or is it?";
+                }, 10000)
+            }, 1000)
+        }, 2000);
+    }
+
+    this.unlock_tier3a_resource = function() {
+        console.log('REVEAL FOLLOWERS');
+    }
+
     this.speed_up_time = function() {
         generator_tick_time = Math.floor(generator_tick_time / 2);
         generators.forEach(generator => {
@@ -135,3 +260,7 @@ var utils = new function() {
         }
     }
 };
+
+// var dom = new function() {};
+// var transitions = new function() {};
+// var utils = new function() {};

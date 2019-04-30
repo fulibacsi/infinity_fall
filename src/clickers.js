@@ -1,10 +1,10 @@
 class Clicker
 {
-	constructor(tier) {
+	constructor(tier, mute=true, subtitle=false) {
 		this.tier = tier;
 		this.level = 1;
-		this.mute = false;
-		this.subtitle = false;
+		this.mute = mute;
+		this.subtitle = subtitle;
 		this.productivity_display = document.getElementById(this.tier + "_clicker_productivity");
 
 		this.renew_display();
@@ -40,5 +40,6 @@ class Clicker
 }
 
 var clickers = {
-    'tier1': new Clicker('tier1')
+	'tier1': new Clicker('tier1', false, false),
+	'tier2a': new Clicker('tier2a', true, false)
 };

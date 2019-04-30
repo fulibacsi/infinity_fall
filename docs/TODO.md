@@ -10,7 +10,7 @@ TECH
 - JS span-okba tenni a létrehozott DOM-ot, hogy lehessen egyben kezelni [DONE]
 - JS fix: hide [DONE]
 - JS időgyorsítást megoldani [DONE]
-- JS új canvas: progressbar, függőleges, custom
+- JS új canvas: progressbar, függőleges, custom [DONE]
 - HMTL, JS elemek elnevezése (tier1-tier3) [DONE]
 - JS revew_resources átnevezése main_loop-ra [DONE]
 - HMTL képernyőkép kialakítása, oszlopok, elrendezés
@@ -27,7 +27,7 @@ TECH
     - resource check event condition [DONE]
     - imp / gen check event [DONE]
     - event check [DONE]
-- JS jobb klikk custom command
+- JS jobb klikk custom command [DONE]
 - JS main.js szétbontása [DONE]
     - clickers
     - improvements
@@ -36,26 +36,27 @@ TECH
     - main
 - JS utils.js szétbontása
     - dom utils 
-    - event handlers (cklickers-be rakni?)
+    - event handlers (clickers-be rakni?)
     - egyéb, mittudomén
 - HMTL, JS game over implementálása
-    - új screen?
-    - popup?
+    - popup [DONE]
+    - reset game
+    - achievements
 - JS több clicker [DONE]
-- JS fix condition checking in utils.check_preqs and utils.check_event_triggered
+- JS fix condition checking in utils.check_preqs and utils.check_event_triggered ?
 
  
 
 STORY
 -----
-- 1M sikolynál progress bár, ha megtelik, jön a kérdés
+- 1M sikolynál progress bár, ha megtelik, jön a kérdés [DONE]
 - imaginary friend-ből misterious friend lesz, halvány szempár, egy-egy kósza felirat (halvány az is) [DONE]
 - az időgyorsításra gyorsuljon az anim is, és egy idő után már pörögjön a fal nagyon gyorsan [DONE]
-- választási lehetőség: vagy segítesz és a barátja leszel, vagy a szolgája, vagy jobb-klikk event (csak ilyenkor van bekapcsolva)
+- választási lehetőség: vagy segítesz és a barátja leszel, vagy a szolgája, vagy jobb-klikk event (csak ilyenkor van bekapcsolva) [DONE]
 
 
 ÖRDÖG STORYLINE
-- ha barátja leszel, szárnyakat növesztesz, és kattintásra embereket dobálsz a lyukba (célzás célkereszttel), új resource: soul
+- ha barátja leszel, szárnyakat növesztesz, és kattintásra embereket dobálsz a lyukba (célzás célkereszttel), új resource: soul [DONE]
 - ha elég sok soult gyűjtesz, egyre több szolgát tudsz venni (új currency: follower)
 - soul ha eléri az 1milliárdot, új csökkenő progressbar 7milliárdról indul.
     - ha elfogy: kihal a föld: GAME OVER
@@ -76,8 +77,8 @@ RESISTANCE STORYLINE
             - ha kifogysz a followerekből: GAME OVER
 
 
-WAKE UP STORYLINE
-- event: jobb klikk -> valami custom menü (wake up: GAME OVER)
+WAKE UP STORYLINE [DONE]
+- event: jobb klikk -> valami custom menü (wake up: GAME OVER) [DONE]
 
 
 ART

@@ -24,27 +24,25 @@ class Improvement
 
 		this.price_display = document.createElement("span");
 		this.price_display.id = this.name + "_price";
+		
+		this.caption = document.createElement("span");
+		this.caption.append(document.createTextNode("Buy ("));
+		this.caption.append(this.price_display);
+		this.caption.append(document.createTextNode(")"));
 
 		this.button = document.createElement("div");
 		this.button.classList.add('button');
-		this.button.id = this.name + '_button'
-		this.button.innerHTML = "Improve";
+		this.button.id = this.name + '_button';
 		this.button.onclick = this.improve.bind(this);
+		this.button.append(this.caption);
 
+		this.interactive_area.append(this.button);
+		
 		// put together
 		this.area.append(document.createTextNode(name + " Level: "));
 		this.area.append(this.level_display);
-		this.area.append(document.createElement("br"));
-
-		this.interactive_area.append(document.createTextNode("Improvement Price: "));
-		this.interactive_area.append(this.price_display);
-		this.interactive_area.append(document.createElement("br"));
-
-		this.interactive_area.append(this.button);
-		this.interactive_area.append(document.createElement("br"));
-		this.interactive_area.append(document.createElement("br"));
-
 		this.area.append(this.interactive_area);
+		this.area.append(document.createElement("br"));
 	}
 
 	get_price() {
@@ -99,7 +97,8 @@ var improvements = [
         'req_improvements': [],
         'req_generators': [],
         'enabled': 0
-    },
+	},
+	
     // TIER 1
     {
         'id': 'Subtitles',
@@ -119,24 +118,60 @@ var improvements = [
         'req_generators': [],
         'enabled': 0
     },
-    // TIER 2
     {
         'id': 'Time distortion',
         'tier': 'tier1',
-        'obj': new Improvement("tier1", "Time distortion", 1, 500000000, 1.25, false, utils.speed_up_time),
-        'threshold': 500000000,
+        'obj': new Improvement("tier1", "Time distortion", 1, 100000000, 1.25, false, utils.speed_up_time),
+        'threshold': 75000000,
         'req_improvements': [],
         'req_generators': ['Delusions'],
         'enabled': 0
-    },
-    // TIER 3
+	},
+	
+	// TIER 2
+    {
+        'id': 'Wings',
+		'tier': 'tier2a',
+        'obj': new Improvement("tier2a", "Wings", 1, 10, 1.25, clickers['tier2a'], utils.improve),
+        'threshold': 10,
+        'req_improvements': [],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Scythe',
+		'tier': 'tier2a',
+        'obj': new Improvement("tier2a", "Scythe", 2, 100, 1.25, clickers['tier2a'], utils.improve),
+        'threshold': 75,
+        'req_improvements': ['Wings'],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Harvest power',
+		'tier': 'tier2a',
+        'obj': new Improvement("tier2a", "Harvest power", false, 1000, 1.25, clickers['tier2a'], utils.improve),
+        'threshold': 750,
+        'req_improvements': ['Scythe'],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Demon control',
+		'tier': 'tier2a',
+        'obj': new Improvement("tier2a", "Demon control", 1, 1000000, 1.25, false, clickers['tier2a'], utils.improve),
+        'threshold': 7500000,
+        'req_improvements': ['Harvest power'],
+        'req_generators': ['Demon Overlords'],
+        'enabled': 0
+	},
     {
         'id': 'Speed up time',
-        'tier': 'tier1',
-        'obj': new Improvement("tier1", "Speed up time", 1, 1500000000, 1.25, false, utils.speed_up_time),
-        'threshold': 1000000000,
-        'req_improvements': ['Time distortion'],
-        'req_generators': ['Imaginary Friend'],
+        'tier': 'tier2a',
+        'obj': new Improvement("tier2a", "Speed up time", 1, 100000000, 1.25, false, utils.speed_up_time),
+        'threshold': 75000000,
+        'req_improvements': ['Demon control'],
+        'req_generators': [],
         'enabled': 0
-    },
+    }
 ]
