@@ -156,7 +156,6 @@ var utils = new function() {
         // removing previous modal
         var modal = document.getElementById('question_modal')
         modal.style.display = "none";
-        modal.parentNode.removeChild(modal);
         // game over modal
         setTimeout(function() {
             var modal = document.getElementById('game_over_modal');
@@ -165,8 +164,13 @@ var utils = new function() {
                 var endingspan = document.getElementById('ending');
                 endingspan.innerHTML = "It must've been a bad dream.<br/>That must be it...";
                 setTimeout(function() {
+                    var button = document.createElement('div');
+                    button.append(document.createTextNode("Start over"));
+                    button.classList.add('button');
+                    button.onclick = utils.reset;
                     var endingspan = document.getElementById('ending');
-                    endingspan.innerHTML = "It must've been a bad dream.<br/>That must be it... Or is it?";
+                    endingspan.innerHTML = "It must've been a bad dream.<br/>That must be it... Or is it?<br/>";
+                    endingspan.append(button);
                 }, 10000)
             }, 1000)
         }, 2000);
@@ -174,6 +178,10 @@ var utils = new function() {
 
     this.unlock_tier3a_resource = function() {
         console.log('REVEAL FOLLOWERS');
+        utils.filleventmodal('Convert souls to followers', 
+                             'You can use souls to summon followers', 
+                             'OK')
+        
     }
 
     this.speed_up_time = function() {
@@ -258,6 +266,24 @@ var utils = new function() {
         if (element !== 'undefined' && element !== null) {
             element.classList.add("disabled");
         }
+    }
+
+    this.unlock_achievement = function(id) {
+        utils.reveal(id);
+    }
+
+    this.reset = function() {
+        alert('RESET!');
+        // hide everything
+
+        // set everything to init
+
+        // reveal achievements
+        achievements.forEach(achievement => {
+            utils.reveal(achievement);
+        });
+        // reveal tier1
+
     }
 };
 

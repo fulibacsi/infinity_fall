@@ -1,10 +1,11 @@
 class Generator
 {
-	constructor(tier, name, productivity, price, price_groth_rate) {
+	constructor(tier, name, productivity, production_cost, price, price_groth_rate) {
 		this.tier = tier;
 		this.name = name;
 		this.level = 0;
 		this.price = price;
+		this.production_cost = production_cost;
 		this.price_groth_rate = price_groth_rate;
 		this.productivity = productivity;
 
@@ -84,12 +85,35 @@ class Generator
 	}
 
 	produce() {
-		resource[this.tier] += this.get_production_value();
-		resource_produced[this.tier] += this.get_production_value();
+		if (this.has_funds()) {
+			this.update_funds();
+			resource[this.tier] += this.get_production_value();
+			resource_produced[this.tier] += this.get_production_value();
+		}
+		
 	}
 
 	get_production_value() {
 		return this.level * this.productivity;
+	}
+
+	has_funds() {
+		if (this.production_cost === false) {
+			return true;
+		}
+		else {
+			var actual_cost = this.get_production_value() * this.production_cost.value;
+			return (resource[this.production_cost.tier] >= actual_cost);
+		}
+	}
+
+	update_funds() {
+		if (this.production_cost !== false) {
+			var actual_cost = this.get_production_value() * this.production_cost.value;
+			resource[this.production_cost.tier] -= actual_cost;
+			resource_display[this.production_cost.tier] = resource[this.production_cost.tier];
+			resources_produced_display[this.production_cost.tier].innerHTML = resource_produced[this.production_cost.tier];
+		}
 	}
 }
 
@@ -99,7 +123,7 @@ var generators = [
     {
         'id': 'Echo',
         'tier': 'tier1',
-        'obj': new Generator("tier1", "Echo", 1, 20, 1.13),
+        'obj': new Generator("tier1", "Echo", 1, false, 20, 1.13),
         'threshold': 20,
         'req_improvements': ['Loudspeaker'],
         'req_generators': [],
@@ -108,7 +132,7 @@ var generators = [
     {
         'id': 'Repeater',
         'tier': 'tier1',
-        'obj': new Generator("tier1", "Repeater", 10, 200, 1.15),
+        'obj': new Generator("tier1", "Repeater", 10, false, 200, 1.15),
         'threshold': 200,
         'req_improvements': [],
         'req_generators': ['Echo'],
@@ -117,7 +141,7 @@ var generators = [
     {
         'id': 'Feedback Loop',
         'tier': 'tier1',
-        'obj': new Generator("tier1", "Feedback Loop", 100, 2000, 1.17),
+        'obj': new Generator("tier1", "Feedback Loop", 100, false, 2000, 1.17),
         'threshold': 2000,
         'req_improvements': [],
         'req_generators': ['Repeater'],
@@ -126,7 +150,7 @@ var generators = [
     {
         'id': 'Delusions',
         'tier': 'tier1',
-        'obj': new Generator("tier1", "Delusions", 1000, 20000, 1.19),
+        'obj': new Generator("tier1", "Delusions", 1000, false, 20000, 1.19),
         'threshold': 20000,
         'req_improvements': [],
         'req_generators': ['Feedback Loop'],
@@ -135,7 +159,7 @@ var generators = [
     {
         'id': 'Imaginary Friend',
         'tier': 'tier1',
-        'obj': new Generator("tier1", "Imaginary Friend", 10000, 200000, 1.27),
+        'obj': new Generator("tier1", "Imaginary Friend", 10000, false, 200000, 1.27),
         'threshold': 200000,
         'req_improvements': [],
         'req_generators': ['Delusions'],
@@ -146,7 +170,7 @@ var generators = [
 	{
         'id': 'Imp',
         'tier': 'tier2a',
-        'obj': new Generator("tier2a", "Imp", 1, 66, 1.13),
+        'obj': new Generator("tier2a", "Imp", 1, false, 66, 1.13),
         'threshold': 33,
         'req_improvements': ['Wings'],
         'req_generators': [],
@@ -155,7 +179,7 @@ var generators = [
     {
         'id': 'Demon',
         'tier': 'tier2a',
-        'obj': new Generator("tier2a", "Demon", 6, 333, 1.15),
+        'obj': new Generator("tier2a", "Demon", 6, false, 333, 1.15),
         'threshold': 99,
         'req_improvements': ['Scythe'],
         'req_generators': ['Imp'],
@@ -164,7 +188,7 @@ var generators = [
     {
         'id': 'Winged demon',
         'tier': 'tier2a',
-        'obj': new Generator("tier2a", "Winged demon", 66, 3333, 1.17),
+        'obj': new Generator("tier2a", "Winged demon", 66, false, 3333, 1.17),
         'threshold': 999,
         'req_improvements': [],
         'req_generators': ['Demon'],
@@ -173,7 +197,7 @@ var generators = [
     {
         'id': 'Balrog',
         'tier': 'tier2a',
-        'obj': new Generator("tier2a", "Balrog", 666, 6666, 1.19),
+        'obj': new Generator("tier2a", "Balrog", 666, false, 6666, 1.19),
         'threshold': 3333,
         'req_improvements': ['Harvest power'],
         'req_generators': ['Winged demon'],
@@ -182,7 +206,7 @@ var generators = [
     {
         'id': 'Hell Lords',
         'tier': 'tier2a',
-        'obj': new Generator("tier2a", "Hell Lords", 6666, 33333, 1.27),
+        'obj': new Generator("tier2a", "Hell Lords", 6666, false, 33333, 1.27),
         'threshold': 20000,
         'req_improvements': [],
         'req_generators': ['Balrog'],
@@ -191,7 +215,7 @@ var generators = [
     {
         'id': 'Demon Overlords',
         'tier': 'tier2a',
-        'obj': new Generator("tier2a", "Hell Lords", 66666, 666666, 1.27),
+        'obj': new Generator("tier2a", "Hell Lords", 66666, false, 666666, 1.27),
         'threshold': 333333,
         'req_improvements': [],
         'req_generators': ['Hell Lords'],

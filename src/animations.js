@@ -88,6 +88,18 @@ var animations = new function() {
         context.fillRect(0, height, canvas.width, canvas.height);
     }
 
+    this.hprogressbar = function(canvas, context, tier, target) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        width = Math.max(0, canvas.width - Math.floor(canvas.width * resource[tier] / target));
+        context.rect(0, 10, 300, 20);
+        context.fillRect(0, 10, width, canvas.height - 10);
+        ccontexttx.globalAlpha = 0.5;
+        context.fillStyle = "#ffff00";
+        context.fillRect(canvas.width / 2 - 10, 0, 20, canvas.height);
+        context.globalAlpha = 1.0;
+        context.fillStyle = "#000";
+    }
+
     this.flip = function(canvas, context, imgs, texts) {
         context.clearRect(0, 0, canvas.width, canvas.height);
 

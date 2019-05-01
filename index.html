@@ -5,6 +5,13 @@
 		<link rel="stylesheet" type="text/css" href="interface.css" />
 	</head>
 	<body class='noselect'>
+		<div id="header" class="hidden">
+			<span id="devil_good_ending" class="achievment hidden"></span>
+			<span id="devil_bad_ending" class="achievment hidden"></span>
+			<span id="resistance_good_ending" class="achievment hidden"></span>
+			<span id="resistance_bad_ending" class="achievment hidden"></span>
+			<span id="wake_up_ending" class="achievment hidden"></span>
+		</div>
 		<div id="main_window" class='main row'>
 			<div id='tier1' class='tier column'>
 				<div id="tier1_graphics">
@@ -28,8 +35,8 @@
 
 			<div id='tier2a' class='tier column hidden'>
 				<div id="tier2a_graphics">
-					<canvas id="wingedman_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000" tier='tier2a'></canvas>
-					<canvas class="hidden" id="soul_canvas" width="15" height="200" style="border:1px solid #000000; background-color: #FFF"></canvas>
+					<canvas id="wingedman_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000" tier='tier2a'></canvas><br>
+					<canvas id="soul_canvas" class="hidden" width="200" height="40" style="border: none; background-color: #FFF"></canvas>
 				</div>
 
 				<div id="tier2a_interface">
@@ -43,6 +50,25 @@
 
 					<hr id='tier2a_generator_separator' class="hidden">
 					<span id="tier2a_generators"></span>
+				</div>
+			</div>
+
+			<div id='tier3a' class='tier column hidden'>
+				<div id="tier3a_graphics">
+					<canvas id="follower_summon_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000" tier='tier3a'></canvas>
+				</div>
+
+				<div id="tier3a_interface">
+					<div class='tier3a_resource'>Followers: <span id="summoned_followers"></span></div><br>
+					Followers collected: <span id="followers_summoned"></span><br>
+					Followers / summon: <span id="tier3a_clicker_productivity"></span><br>
+					Follower summining / sec: <span id="tier3a_altogether_productivity"></span><br>
+
+					<hr id='tier3a_improvement_separator' class="hidden">
+					<span id="tier3a_improvements"></span>
+
+					<hr id='tier3a_generator_separator' class="hidden">
+					<span id="tier3a_generators"></span>
 				</div>
 			</div>
 		</div>
