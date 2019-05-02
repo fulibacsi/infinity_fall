@@ -180,8 +180,8 @@ var utils = new function() {
         console.log('REVEAL FOLLOWERS');
         utils.filleventmodal('Convert souls to followers',
                              'You can use souls to summon followers',
-                             'OK')
-
+                             'OK');
+        utils.reveal('tier3a');
     }
 
     this.speed_up_time = function() {

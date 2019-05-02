@@ -57,7 +57,8 @@ class Clicker
 }
 
 var clickers = {
-	'tier1': new Clicker('tier1', false, false, false),
-	'tier2a': new Clicker('tier2a', false, true, false),
-	'tier3a': new Clicker('tier2a', {'tier': 'tier2a', 'value': 1}, true, false),
+	'tier1': new Clicker('tier1', false, false, false), // shouts
+	'tier2a': new Clicker('tier2a', false, true, false), // souls
+	'tier3a': new Clicker('tier2a', {'tier': 'tier2a', 'value': 1}, true, false), // summoned followers
+	//'tier4':  new Clicker('tier4', {'tier': 'tier3a', 'value': 1}, true, false) // people
 };

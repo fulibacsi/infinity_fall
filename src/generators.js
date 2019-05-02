@@ -166,7 +166,7 @@ var generators = [
         'enabled': 0
     },
 
-	// TIER 2
+	// TIER 2a
 	{
         'id': 'Imp',
         'tier': 'tier2a',
@@ -220,5 +220,16 @@ var generators = [
         'req_improvements': [],
         'req_generators': ['Hell Lords'],
         'enabled': 0
-    }
+    },
+
+    // TIER 3a
+    {
+        'id': 'tier3a_gen1',
+        'tier': 'tier3a',
+        'obj': new Generator("tier3a", "tier3a_gen1", 1, {'tier': 'tier2a', 'value': 1}, 100, 1.13),
+        'threshold': 33,
+        'req_improvements': ['tier3a_up2'],
+        'req_generators': [],
+        'enabled': 0
+	},
 ]

@@ -44,7 +44,13 @@
 			<div id='tier2a' class='tier column hidden'>
 				<div id="tier2a_graphics">
 					<canvas id="wingedman_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000" tier='tier2a'></canvas><br>
-					<canvas id="soul_canvas" class="hidden" width="200" height="40" style="border: none; background-color: #FFF"></canvas>
+					<canvas id="soul_canvas" class="hidden" width="200" height="40" style="border: none; background-color: #FFF"></canvas><br>
+					<div id="tier4" class="statsbox hidden">
+						Remaining people: <span id="population"></span><br>
+						Raised people: <span id="poople_raised"></span><br>
+						Conversion rate: <span id="tier4_clicker_productivity" class="hidden"></span><br>
+						<span id="people_production_display" class="hidden">People production: <span id="people_production"></span></span>
+					</div>
 				</div>
 
 				<div id="tier2a_interface">
@@ -72,6 +78,7 @@
 			<div id='tier3a' class='tier column hidden'>
 				<div id="tier3a_graphics">
 					<canvas id="follower_summon_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000" tier='tier3a'></canvas>
+					<div id="convert_followers_button" class="hidden button">Convert followers to people</div>
 				</div>
 
 				<div id="tier3a_interface">

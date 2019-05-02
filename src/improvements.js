@@ -128,7 +128,7 @@ var improvements = [
         'enabled': 0
 	},
 
-	// TIER 2
+	// TIER 2a
     {
         'id': 'Wings',
 		'tier': 'tier2a',
@@ -173,5 +173,25 @@ var improvements = [
         'req_improvements': ['Demon control'],
         'req_generators': [],
         'enabled': 0
-    }
+	},
+
+	// TIER 3a
+	{
+        'id': 'tier3a_up1',
+        'tier': 'tier3a',
+        'obj': new Improvement("tier3a", "tier3a up1", false, 50, 1.25, false, utils.improve),
+        'threshold': 0,
+        'req_improvements': [],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'tier3a up2',
+        'tier': 'tier3a',
+        'obj': new Improvement("tier3a", "tier3a up2", false, 150, 1.25, false, utils.improve),
+        'threshold': 0,
+        'req_improvements': ['tier3a_up1'],
+        'req_generators': [],
+        'enabled': 0
+	},
 ]
