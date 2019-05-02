@@ -24,7 +24,7 @@ class Improvement
 
 		this.price_display = document.createElement("span");
 		this.price_display.id = this.name + "_price";
-		
+
 		this.caption = document.createElement("span");
 		this.caption.append(document.createTextNode("Buy ("));
 		this.caption.append(this.price_display);
@@ -37,7 +37,7 @@ class Improvement
 		this.button.append(this.caption);
 
 		this.interactive_area.append(this.button);
-		
+
 		// put together
 		this.area.append(document.createTextNode(name + " Level: "));
 		this.area.append(this.level_display);
@@ -69,7 +69,7 @@ class Improvement
 			utils.hide(this.interactive_area.id);
 		} else {
 			this.level_display.innerHTML = this.level;
-			this.price_display.innerHTML = this.get_price();
+			this.price_display.innerHTML = utils.formatWithCommas(this.get_price());
 		}
 	}
 
@@ -98,7 +98,7 @@ var improvements = [
         'req_generators': [],
         'enabled': 0
 	},
-	
+
     // TIER 1
     {
         'id': 'Subtitles',
@@ -127,7 +127,7 @@ var improvements = [
         'req_generators': ['Delusions'],
         'enabled': 0
 	},
-	
+
 	// TIER 2
     {
         'id': 'Wings',

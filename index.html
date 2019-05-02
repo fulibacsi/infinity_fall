@@ -6,11 +6,11 @@
 	</head>
 	<body class='noselect'>
 		<div id="header" class="hidden">
-			<span id="devil_good_ending" class="achievment hidden"></span>
-			<span id="devil_bad_ending" class="achievment hidden"></span>
-			<span id="resistance_good_ending" class="achievment hidden"></span>
-			<span id="resistance_bad_ending" class="achievment hidden"></span>
-			<span id="wake_up_ending" class="achievment hidden"></span>
+			<span id="devil_good_ending" class="achievment hidden">GOODEVIL</span>
+			<span id="devil_bad_ending" class="achievment hidden">BADEVIL</span>
+			<span id="resistance_good_ending" class="achievment hidden">GOODRES</span>
+			<span id="resistance_bad_ending" class="achievment hidden">BADRES</span>
+			<span id="wake_up_ending" class="achievment hidden">WAKE</span>
 		</div>
 		<div id="main_window" class='main row'>
 			<div id='tier1' class='tier column'>
@@ -20,16 +20,24 @@
 				</div>
 
 				<div id="tier1_interface" class='hidden'>
-					<div class='tier1_resource'>deciBel: <span id="dBs"></span></div><br>
-					deciBels shouted: <span id="dBs_shouted"></span><br>
-					Volume: <span id="tier1_clicker_productivity"></span><br>
-					Shouts / sec: <span id="tier1_altogether_productivity"></span><br>
+					<div class='tier1_resource'><h1>deciBel: <span id="dBs"></span></h1></div><br>
+					<div id='tier1_stats_box' class='statsbox'>
+						deciBels shouted: <span id="dBs_shouted"></span><br>
+						Volume: <span id="tier1_clicker_productivity"></span><br>
+						Shouts / sec: <span id="tier1_altogether_productivity"></span><br>
+					</div>
 
-					<hr id='tier1_improvement_separator' class="hidden">
-					<span id="tier1_improvements"></span>
+					<div id='tier1_improvements_box' class="hidden statsbox">
+						<h2>Upgrades</h2>
+						<hr>
+						<span id="tier1_improvements"></span>
+					</div>
 
-					<hr id='tier1_generator_separator' class="hidden">
-					<span id="tier1_generators"></span>
+					<div  id='tier1_generators_box' class="hidden statsbox">
+						<h2>Generators</h2>
+						<hr>
+						<span id="tier1_generators"></span>
+					</div>
 				</div>
 			</div>
 
@@ -40,16 +48,24 @@
 				</div>
 
 				<div id="tier2a_interface">
-					<div class='tier2a_resource'>souls: <span id="souls"></span></div><br>
-					Souls collected: <span id="souls_collected"></span><br>
-					Souls / harvest: <span id="tier2a_clicker_productivity"></span><br>
-					Souls / sec: <span id="tier2a_altogether_productivity"></span><br>
+					<div class='tier2a_resource'><h1>Souls: <span id="souls"></span></h1></span></div><br>
+					<div id='tier2a_stats' class='statsbox'>
+						Souls collected: <span id="souls_collected"></span><br>
+						Souls / harvest: <span id="tier2a_clicker_productivity"></span><br>
+						Souls / sec: <span id="tier2a_altogether_productivity"></span><br>
+					</div>
 
-					<hr id='tier2a_improvement_separator' class="hidden">
-					<span id="tier2a_improvements"></span>
+					<div id='tier2a_improvements_box' class="hidden statsbox">
+						<h2>Upgrades</h2>
+						<hr>
+						<span id="tier2a_improvements"></span>
+					</div>
 
-					<hr id='tier2a_generator_separator' class="hidden">
-					<span id="tier2a_generators"></span>
+					<div id='tier2a_generators_box' class="hidden statsbox">
+						<h2>Generators</h2>
+						<hr>
+						<span id="tier2a_generators"></span>
+					</div>
 				</div>
 			</div>
 
@@ -59,16 +75,25 @@
 				</div>
 
 				<div id="tier3a_interface">
-					<div class='tier3a_resource'>Followers: <span id="summoned_followers"></span></div><br>
-					Followers collected: <span id="followers_summoned"></span><br>
-					Followers / summon: <span id="tier3a_clicker_productivity"></span><br>
-					Follower summining / sec: <span id="tier3a_altogether_productivity"></span><br>
+					<div class='tier3a_resource'><h1>Followers: <span id="summoned_followers"></span></h1></div><br>
+					<div id='tier3a_stats_box' class='statsbox'>
+						Followers collected: <span id="followers_summoned"></span><br>
+						Followers / summon: <span id="tier3a_clicker_productivity"></span><br>
+						Follower summining / sec: <span id="tier3a_altogether_productivity"></span><br>
+					</div>
 
-					<hr id='tier3a_improvement_separator' class="hidden">
-					<span id="tier3a_improvements"></span>
 
-					<hr id='tier3a_generator_separator' class="hidden">
-					<span id="tier3a_generators"></span>
+					<div id='tier3a_improvements_box' class="hidden statsbox">
+						<h2>Upgrades</h2>
+						<hr>
+						<span id="tier3a_improvements"></span>
+					</div>
+
+					<div  id='tier3a_generators_box' class="hidden statsbox"></div>
+						<h2>Generators</h2>
+						<hr>
+						<span id="tier3a_generators"></span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -87,7 +112,7 @@
 			<div class="modal-content">
 				<h1 id="event_modal_h1"></h1>
 				<span id="event_modal_content"></span>
-				<div id="event_modal_close_button" class="button"></div>			
+				<div id="event_modal_close_button" class="button"></div>
 			</div>
 		</div>
 
@@ -98,25 +123,25 @@
 			</div>
 		</div>
 
-		<div id="test" class='hidden' style="border: 1px solid #000; width: 33%;">
+		<div id="test" class='hidden' style="border: 1px solid #000; width: 300px; margin-top: 30px; padding: 10px">
 			<h1>TEST WINDOW</h1>
 			<input id="test_db_input" type="number"><div id="test_db_value_set" class=button>set db value</div><br>
 			<input id="test_db_prod_input" type="number"><div id="test_db_prod_set" class=button>set db prod</div><br>
-			<div id='test_transition' class='button'>test transition</div>
+			<div id='test_tier2_transition' class='button'>test tier2 transition</div>
 		</div>
 
 		<script type="text/javascript" src="src/utils.js"></script>
 
 		<script type="text/javascript" src="src/animations.js"></script>
 		<script type="text/javascript" src="src/sounds.js"></script>
-		
+
 		<script type="text/javascript" src="src/globals.js"></script>
-		
+
 		<script type="text/javascript" src="src/clickers.js"></script>
 		<script type="text/javascript" src="src/improvements.js"></script>
 		<script type="text/javascript" src="src/generators.js"></script>
 		<script type="text/javascript" src="src/events.js"></script>
-		
+
 		<script type="text/javascript" src="src/main.js"></script>
 	</body>
 </html>

@@ -126,7 +126,7 @@ var texts = {
 }
 
 // TIER 1 CANVAS
-// canvas setup
+// main canvas setup
 var fallingman_canvas = document.getElementById('fallingman_canvas');
 var fallingman_context = fallingman_canvas.getContext("2d");
 
@@ -134,8 +134,15 @@ var fallingman_context = fallingman_canvas.getContext("2d");
 var fallingman_image_list = [images['wall'], images['man'],];
 var fallingman_text_list = [];
 
-//TIER 2 CANVAS
-// canvas setup
+// progressbar canvas setup
 var sound_canvas = document.getElementById('sound_canvas');
 var sound_context = sound_canvas.getContext("2d");
 
+//TIER 2 CANVAS
+// main canvas
+var wingedman_canvas = document.getElementById('wingedman_canvas');
+var wingedman_context = wingedman_canvas.getContext('2d');
+
+// progressbar canvas
+var soul_canvas = document.getElementById('soul_canvas');
+soul_context = soul_canvas.getContext('2d');

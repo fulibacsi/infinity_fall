@@ -1,11 +1,11 @@
 // main loop
 function main_loop() {
 	tiers.forEach(name => {
-		resource_display[name].innerHTML = resource[name];
-		resources_produced_display[name].innerHTML = resource_produced[name];
-		altogether_productivity_display[name].innerHTML = altogether_productivity[name];
+		resource_display[name].innerHTML = utils.formatWithCommas(resource[name]);
+		resources_produced_display[name].innerHTML = utils.formatWithCommas(resource_produced[name]);
+		altogether_productivity_display[name].innerHTML = utils.formatWithCommas(altogether_productivity[name]);
 	})
-	
+
 	events.forEach(event => {
 		if (event.triggered == 0) {
 			console.log('Checking', event.id);
@@ -63,7 +63,7 @@ fallingman_canvas.addEventListener("click", clicked);
 main_loop_ticker = setInterval(main_loop, logic_tick_time);
 // animation loops
 animation_tickers = {
-    'tier1': setInterval(animations.flip, anim_tick_time, 
+    'tier1': setInterval(animations.flip, anim_tick_time,
                          fallingman_canvas, fallingman_context,
                          fallingman_image_list, fallingman_text_list),
 }
@@ -78,8 +78,8 @@ function enable_test() {
 }
 
 // test functions
-var test_transition_button = document.getElementById('test_transition');
-test_transition_button.onclick = utils.tier1_transition_to_tier2;
+var test_tier2_transition_button = document.getElementById('test_tier2_transition');
+test_tier2_transition_button.onclick = utils.tier1_transition_to_tier2;
 
 var test_db_set_button = document.getElementById('test_db_value_set');
 test_db_set_button.onclick = function() {

@@ -35,8 +35,8 @@ class Clicker
 	update_funds() {
 		if (this.cost !== false) {
 			resource[this.cost.tier] -= this.cost.value;
-			resource_display[this.cost.tier] = resource[this.cost.tier];
-			resources_produced_display[this.cost.tier].innerHTML = resource_produced[this.cost.tier];
+			resource_display[this.cost.tier] = utils.formatWithCommas(resource[this.cost.tier]);
+			resources_produced_display[this.cost.tier].innerHTML = utils.formatWithCommas(resource_produced[this.cost.tier]);
 		}
 	}
 
@@ -50,9 +50,9 @@ class Clicker
 	}
 
 	renew_display() {
-        resource_display[this.tier].innerHTML = resource[this.tier];
-		resources_produced_display[this.tier].innerHTML = resource_produced[this.tier];
-		this.productivity_display.innerHTML = this.get_production_value();
+        resource_display[this.tier].innerHTML = utils.formatWithCommas(resource[this.tier]);
+        resources_produced_display[this.tier].innerHTML = utils.formatWithCommas(resource_produced[this.tier]);
+        this.productivity_display.innerHTML = utils.formatWithCommas(this.get_production_value());
 	}
 }
 

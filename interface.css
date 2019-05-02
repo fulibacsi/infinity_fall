@@ -18,9 +18,9 @@
 
 .column {
     float: left;
-    width: 33.33%;
+    width: 300px;
 }
-  
+
 /* Clear floats after the columns */
 .row:after {
     content: "";
@@ -55,6 +55,13 @@
     text-decoration: line-through;
 }
 
+.statsbox {
+    float: left;
+    width: 300px;
+    padding: 5px 5px;
+    /* border: 1px solid #888; */
+
+}
 
 /* modal window */
 .modal {
@@ -70,7 +77,7 @@
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-  
+
 .modal-content {
     background-color: #fefefe;
     margin: auto;

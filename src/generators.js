@@ -25,7 +25,7 @@ class Generator
 
 		this.price_display = document.createElement("span");
 		this.price_display.id = this.name + "_price";
-		
+
 		this.caption = document.createElement("span");
 		this.caption.append(document.createTextNode("Buy ("));
 		this.caption.append(this.price_display);
@@ -64,7 +64,7 @@ class Generator
 
 	improve() {
 		if(resource[this.tier] >= this.get_price()) {
-			console.log(this.name, 'levelled up [', this.get_price(), 'cost /', resource[this.tier], 'resource]: ', this.level + 1);
+			console.log(this.name, 'levelled up [', utils.formatWithCommas(this.get_price()), 'cost /', resource[this.tier], 'resource]: ', this.level + 1);
 			resource[this.tier] -= this.get_price();
 			this.level += 1;
 			altogether_productivity[this.tier] += this.productivity;
@@ -75,8 +75,8 @@ class Generator
 
 	renew_display() {
 		this.level_display.innerHTML = this.level;
-		this.productivity_display.innerHTML = this.get_production_value();
-		this.price_display.innerHTML = this.get_price();
+		this.productivity_display.innerHTML = utils.formatWithCommas(this.get_production_value());
+		this.price_display.innerHTML = utils.formatWithCommas(this.get_price());
 	}
 
 	set_visible() {
@@ -90,7 +90,7 @@ class Generator
 			resource[this.tier] += this.get_production_value();
 			resource_produced[this.tier] += this.get_production_value();
 		}
-		
+
 	}
 
 	get_production_value() {
@@ -111,8 +111,8 @@ class Generator
 		if (this.production_cost !== false) {
 			var actual_cost = this.get_production_value() * this.production_cost.value;
 			resource[this.production_cost.tier] -= actual_cost;
-			resource_display[this.production_cost.tier] = resource[this.production_cost.tier];
-			resources_produced_display[this.production_cost.tier].innerHTML = resource_produced[this.production_cost.tier];
+			resource_display[this.production_cost.tier] = utils.formatWithCommas(resource[this.production_cost.tier]);
+			resources_produced_display[this.production_cost.tier].innerHTML = utils.formatWithCommas(resource_produced[this.production_cost.tier]);
 		}
 	}
 }
@@ -165,7 +165,7 @@ var generators = [
         'req_generators': ['Delusions'],
         'enabled': 0
     },
-	
+
 	// TIER 2
 	{
         'id': 'Imp',

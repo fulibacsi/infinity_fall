@@ -47,26 +47,26 @@ var utils = new function() {
 
     this.turn_on_sound_progress = function(target=100) {
         utils.reveal('sound_canvas');
-        animation_tickers['tier1_tier2_transition'] = setInterval(animations.vprogressbar, anim_tick_time, 
+        animation_tickers['tier1_tier2_transition'] = setInterval(animations.vprogressbar, anim_tick_time,
                                                                   sound_canvas, sound_context, 'tier1', target)
     }
 
     this.turn_on_population_progress = function(target=100) {
         utils.reveal('soul_canvas');
-        animation_tickers['tier2a_population_progress'] = setInterval(animations.vprogressbar, anim_tick_time, 
+        animation_tickers['tier2a_population_progress'] = setInterval(animations.vprogressbar, anim_tick_time,
                                                                       soul_canvas, soul_context, 'tier2a', target)
     }
 
     this.filleventmodal = function(header, content, button) {
         var modal = document.getElementById('event_modal');
         modal.style.display = "block";
-        
+
         var modalheader = document.getElementById('event_modal_h1');
         modalheader.innerHTML = header;
-        
+
         var modalcontent = document.getElementById('event_modal_content');
         modalcontent.innerHTML = content;
-        
+
         var modalbutton = document.getElementById('event_modal_close_button');
         modalbutton.innerHTML = button;
         modalbutton.onclick = function() {
@@ -93,7 +93,7 @@ var utils = new function() {
         // disable + hide sound progress bar
         clearInterval(animation_tickers['tier1_tier2_transition']);
         utils.hide('sound_canvas');
-        
+
         // create modal question
         var modal = document.getElementById('question_modal');
         modal.style.display = "block";
@@ -115,7 +115,7 @@ var utils = new function() {
         // close modal
         var modal = document.getElementById('question_modal');
         modal.style.display = "none";
-        
+
         // remove eventlisteners
         modal.removeEventListener("contextmenu", utils.contextmenu_open);
         modal.removeEventListener("click", utils.contextmenu_click);
@@ -123,10 +123,10 @@ var utils = new function() {
 
         // stop animations
         clearInterval(animation_tickers['tier1']);
-        
+
         // remove modal
         modal.parentNode.removeChild(modal);
-        
+
         // activate event
         utils.filleventmodal("Good-good", "Now collect me souls!", "As you wish... Master");
         wingedman_canvas.addEventListener("click", clicked, tier='tier2a');
@@ -178,10 +178,10 @@ var utils = new function() {
 
     this.unlock_tier3a_resource = function() {
         console.log('REVEAL FOLLOWERS');
-        utils.filleventmodal('Convert souls to followers', 
-                             'You can use souls to summon followers', 
+        utils.filleventmodal('Convert souls to followers',
+                             'You can use souls to summon followers',
                              'OK')
-        
+
     }
 
     this.speed_up_time = function() {
@@ -189,7 +189,7 @@ var utils = new function() {
         generators.forEach(generator => {
             clearInterval(generator.obj.tick);
             generator.obj.set_tick(generator.obj, generator_tick_time)
-        });   
+        });
     }
 
     this.improve = function(obj) {
@@ -285,6 +285,107 @@ var utils = new function() {
         // reveal tier1
 
     }
+
+    this.formatWithCommas = function(num, decimal) {
+        var hasDot = false;
+        var base = num.toString();
+        if (base.indexOf("e+") !== -1) {
+            var splittedExponentNum = base.split("e+"),
+            exponent = splittedExponentNum[1],
+            str = '';
+            if (base.indexOf(".") !== -1) {
+                base = splittedExponentNum[0].split(".");
+                exponent -= base[1].length;
+                base = base.join("");
+            }
+            while (exponent--) {
+                str = str + '0';
+            }
+            base = base + str;
+        }
+        if (base.indexOf(".") !== -1) {
+            hasDot = true;
+        }
+        if (decimal === 0) {
+            if (base.length <= 3 && !hasDot) return base;
+        }
+        if (typeof (decimal) === "undefined") {
+            decimal = 0;
+        }
+        var leftNum = hasDot ? base.substr(0, base.indexOf(".")) : base;
+        if (decimal === 0) {
+            if (num <= 999) return leftNum;
+            else return leftNum.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        }
+        var dec = hasDot ? base.substr(base.indexOf("."), decimal + 1) : ".";
+        while (dec.length < decimal+1) {
+            dec += "0";
+        }
+        if (num <= 999) return leftNum + dec;
+        else return leftNum.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + dec;
+    }
+
+    this.numberCruncher = function(number, decimals){
+        var suffix = "";
+        if (decimals == undefined){decimals = 2;}
+        var precision = decimals;
+        if (number>999999999999999999999999999999999999999999999999999){
+            number = number/1000000000000000000000000000000000000000000000000000;
+            suffix = "sexdecillion";
+        } else if (number>999999999999999999999999999999999999999999999999){
+            number = number/1000000000000000000000000000000000000000000000000;
+            suffix = "quindecillion";
+        } else if (number>999999999999999999999999999999999999999999999){
+            number = number/1000000000000000000000000000000000000000000000;
+            suffix = "quattuordecillion";
+        } else if (number>999999999999999999999999999999999999999999){
+            number = number/1000000000000000000000000000000000000000000;
+            suffix = "tredecillion";
+        } else if (number>999999999999999999999999999999999999999){
+            number = number/1000000000000000000000000000000000000000;
+            suffix = "duodecillion";
+        } else if (number>999999999999999999999999999999999999){
+            number = number/1000000000000000000000000000000000000;
+            suffix = "undecillion";
+        } else if (number>999999999999999999999999999999999){
+            number = number/1000000000000000000000000000000000;
+            suffix = "decillion";
+        } else if (number>999999999999999999999999999999){
+            number = number/1000000000000000000000000000000;
+            suffix = "nonillion";
+        } else if (number>999999999999999999999999999){
+            number = number/1000000000000000000000000000;
+            suffix = "octillion";
+        } else if (number>999999999999999999999999){
+            number = number/1000000000000000000000000;
+            suffix = "septillion";
+        } else if (number>999999999999999999999){
+            number = number/1000000000000000000000;
+            suffix = "sextillion";
+        } else if (number>999999999999999999){
+            number = number/1000000000000000000;
+            suffix = "quintillion";
+        } else if (number>999999999999999){
+            number = number/1000000000000000;
+            suffix = "quadrillion";
+        } else if (number>999999999999){
+            number = number/1000000000000;
+            suffix = "trillion";
+        } else if (number>999999999){
+            number = number/1000000000;
+            suffix = "billion";
+        } else if (number>999999){
+            number = number/1000000;
+            suffix = "million";
+        } else if (number>999){
+            number = number/1000;
+            suffix = "thousand";
+        }  else if (number<1000){
+            precision = 0;
+        }
+        return number.toFixed(precision) + " " + suffix;
+    }
+
 };
 
 // var dom = new function() {};
