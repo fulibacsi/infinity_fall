@@ -58,6 +58,9 @@ class Event {
                 case 'triggered':
                     local_cond = utils.check_event_triggered([condition.key]);
                     break;
+                case 'in list':
+                    local_cond = utils.in_list(condition.value, variable);
+                    break;
 			}
 			// console.log('[Result]', local_cond);
 			cond = cond && local_cond;
@@ -205,18 +208,53 @@ var events = [
         'triggered': 0
     },
     // TIER 2b
-    // {
-    //     'id': 'tier2b_unlock',
-    //     'tier': 'tier2b',
-    //     'obj': new Event('tier 2b unlock',
-    //                      [{'tier': 'tier2b', 'variable': 'resource_produced', 'relation': '>=', 'value': 1000000}], utils.unlock_tier4_resource, []),
-    //     'triggered': 0
-    // },
-    // {
-    //     'id': 'tier2b_stats_unlock',
-    //     'tier': 'tier2b',
-    //     'obj': new Event('tier 2b stats unlock',
-    //                      [{'key': 'tier2b_unlock', 'relation': 'triggered'}], utils.reveal, ['tier2b']),
-    //     'triggered': 0
-    // },
+    {
+        'id': 'tier2b_improvement_unlock',
+        'tier': 'tier2b',
+        'obj': new Event('tier2b improvements unlock',
+                         [{'tier': 'tier2b', 'variable': 'resource_produced', 'relation': '>=', 'value': 10}], utils.reveal, ['tier2b_improvements_box']),
+        'triggered': 0
+    },
+    {
+        'id': 'tier2b_generator_unlock_a',
+        'tier': 'tier2b',
+        'obj': new Event('tier2b generator unlock',
+                         [{'key': 'Whip', 'relation': 'has improvement'},
+                          {'tier': 'tier2b', 'variable': 'resource_produced', 'relation': '>=', 'value': 5}], utils.reveal, ['tier2b_generators_box']),
+        'triggered': 0
+    },
+    {
+        'id': 'tier2b_generator_unlock_b',
+        'tier': 'tier2b',
+        'obj': new Event('tier2b generator unlock',
+                         [{'key': 'Nails', 'relation': 'has improvement'},
+                          {'tier': 'tier2b', 'variable': 'resource_produced', 'relation': '>=', 'value': 50}], utils.reveal, ['tier2b_generators_box']),
+        'triggered': 0
+    },
+    {
+        'id': 'tier2b_unlimited_chain_start',
+        'tier': 'tier2b',
+        'obj': new Event('tier2b unlimited chain start',
+                         [{'key': 'Eternal Fire', 'relation': 'has improvement'},
+                          {'key': 'More Pain', 'relation': 'has generator'},], utils.add_next_level, [0]),
+        'triggered': 0
+    },
+    {
+        'id': 'tier2b_bad_ending_init',
+        'tier': 'tier2b',
+        'obj': new Event('tier2b bad ending init',
+                         [{'tier': 'tier2b', 'relation': '>=', 'variable': 'resource', 'value': 5000000000000}], utils.tier2b_bad_ending_question, []),
+        'triggered': 0
+    },
+    {
+        'id': 'ultimate_ending',
+        'tier': 'tier2b',
+        'obj': new Event('ultimate ending',
+                         [{'relation': 'in list', 'variable': 'achievements', 'value': 'devil_good_ending'},
+                          {'relation': 'in list', 'variable': 'achievements', 'value': 'devil_bad_ending'},
+                          {'relation': 'in list', 'variable': 'achievements', 'value': 'resistance_good_ending'},
+                          {'relation': 'in list', 'variable': 'achievements', 'value': 'resistance_bad_ending'},
+                          {'relation': 'in list', 'variable': 'achievements', 'value': 'wake_up_ending'},], utils.ultimate_ending, []),
+        'triggered': 0
+    }
 ]

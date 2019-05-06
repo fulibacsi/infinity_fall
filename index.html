@@ -14,7 +14,7 @@
 		<div id="main_window" class='main row'>
 			<div id='tier1' class='tier column'>
 				<div id="tier1_graphics">
-					<canvas id="fallingman_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000" tier='tier1'></canvas>
+					<canvas id="fallingman_canvas" tier='tier1' width="200" height="200" style="border:1px solid #000000; background-color: #000000"></canvas>
 					<canvas class="hidden" id="sound_canvas" width="15" height="200" style="border:1px solid #000000; background-color: #FFF"></canvas>
 				</div>
 
@@ -42,7 +42,7 @@
 
 			<div id='tier2a' class='tier column hidden'>
 				<div id="tier2a_graphics">
-					<canvas id="wingedman_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000" tier='tier2a'></canvas><br>
+					<canvas id="wingedman_canvas" tier='tier2a' width="200" height="200" style="border:1px solid #000000; background-color: #000000"></canvas><br>
 					<canvas id="soul_canvas" class="hidden" width="200" height="40" style="border: none; background-color: #FFF"></canvas><br>
 					<div id='time_req_box' class='statsbox hidden'><h1>Time remaining till perfect balance: <span id="time_req"></span></h1></div>
 				</div>
@@ -71,7 +71,7 @@
 
 			<div id='tier3a' class='tier column hidden'>
 				<div id="tier3a_graphics">
-					<canvas id="follower_summon_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000" tier='tier3a'></canvas>
+					<canvas id="follower_summon_canvas" tier='tier3a' width="200" height="200" style="border:1px solid #000000; background-color: #000000"></canvas>
 				</div>
 
 				<div id="tier3a_interface">
@@ -90,10 +90,37 @@
 						<span id="tier3a_improvements"></span>
 					</div>
 
-					<div  id='tier3a_generators_box' class="hidden statsbox"></div>
+					<div id='tier3a_generators_box' class="hidden statsbox">
 						<h2>Generators</h2>
 						<hr>
 						<span id="tier3a_generators"></span>
+					</div>
+				</div>
+			</div>
+
+			<div id='tier2b' class='tier column hidden'>
+				<div id="tier2b_graphics">
+					<canvas id="burningman_canvas" tier='tier2b' width="200" height="200" style="border:1px solid #000000; background-color: #000000"></canvas><br>
+				</div>
+
+				<div id="tier2b_interface">
+					<div class='tier2b_resource'><h1>Pain: <span id="pain"></span></h1></span></div><br>
+					<div id='tier2b_stats' class='statsbox'>
+						Pain suffered: <span id="pain_suffered"></span><br>
+						Pain / hit: <span id="tier2b_clicker_productivity"></span><br>
+						Pain / sec: <span id="tier2b_altogether_productivity"></span><br>
+					</div>
+
+					<div id='tier2b_improvements_box' class="hidden statsbox">
+						<h2>Upgrades</h2>
+						<hr>
+						<span id="tier2b_improvements"></span>
+					</div>
+
+					<div id='tier2b_generators_box' class="hidden statsbox">
+						<h2>Generators</h2>
+						<hr>
+						<span id="tier2b_generators"></span>
 					</div>
 				</div>
 			</div>
@@ -143,7 +170,14 @@
 			<hr>
 			<h2>TIER3a</h2>
 			<input id="test_follower_prod_input" type="number"><div id="test_follower_prod_set" class=button>set db prod</div><br>
-
+			<hr>
+			<h2>TIER2b</h2>
+			<input id="test_pain_prod_input" type="number"><div id="test_pain_prod_set" class=button>set soul prod</div><br>
+			<div id='test_tier2b_question' class='button'>tier2b question</div>
+			<div id='test_tier2b_unlock_improvement' class='button'>tier2b unlock win imp</div>
+			<hr>
+			<h2>ULTIMATE</h2>
+			<div id='test_ultimate_ending' class='button'>test ultimate ending</div>
 		</div>
 
 		<script type="text/javascript" src="src/utils.js"></script>

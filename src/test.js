@@ -40,16 +40,39 @@ test_soul_prod_set_button.onclick = function() {
 }
 
 // tier3a
-var test_tier4_transition_button = document.getElementById('test_tier4_transition');
-test_tier4_transition_button.onclick = function() {
-	utils.getitem(events, 'tier4_unlock', 'id').obj.trigger();
-	utils.getitem(events, 'tier4_stats_unlock', 'id').obj.trigger();
-}
-
 var test_generator3 = new Generator("tier3a", "TEST3", 1, {'tier': 'tier2a', 'value': 1}, 1, 1.0);
 var test_follower_prod_set_button = document.getElementById('test_follower_prod_set');
 test_follower_prod_set_button.onclick = function() {
 	var value = parseInt(document.getElementById('test_follower_prod_input').value);
 	test_generator3.productivity = value;
 	test_generator3.set_visible();
+}
+
+// tier2b
+var test_tier2b_question_button = document.getElementById('test_tier2b_question');
+test_tier2b_question_button.onclick = function() {
+	utils.getitem(events, 'tier2b_bad_ending_init', 'id').obj.trigger();
+}
+var test_tier2b_unlock_win_button = document.getElementById('test_tier2b_unlock_improvement');
+test_tier2b_unlock_win_button.onclick = function() {
+	var event = utils.getitem(improvements, 'Salvation', 'id');
+	event.obj.set_visible();
+}
+
+var test_generator2b = new Generator("tier2b", "TEST2b", 1, false, 1, 1.0);
+var test_pain_prod_set_button = document.getElementById('test_pain_prod_set');
+test_pain_prod_set_button.onclick = function() {
+	var value = parseInt(document.getElementById('test_pain_prod_input').value);
+	test_generator2b.productivity = value;
+	test_generator2b.set_visible();
+}
+
+// ultimate
+var test_ultimate_ending = document.getElementById('test_ultimate_ending');
+test_ultimate_ending.onclick = function() {
+	achievements = ['devil_good_ending',
+					'devil_bad_ending',
+					'resistance_good_ending',
+					'resistance_bad_ending',
+					'wake_up_ending'];
 }

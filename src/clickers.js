@@ -60,5 +60,6 @@ class Clicker
 var clickers = {
 	'tier1':  new Clicker('tier1', 1.0, false, false, false), // shouts
 	'tier2a': new Clicker('tier2a', 1.0, false, true, false), // souls
-	'tier3a': new Clicker('tier3a', 1.0, {'tier': 'tier2a', 'value': 1}, true, false), // summoned followers
+    'tier3a': new Clicker('tier3a', 1.0, {'tier': 'tier2a', 'value': 1}, true, false), // summoned minions
+    'tier2b': new Clicker('tier2b', 1.0, false, true, false), // souls
 };

@@ -1,4 +1,7 @@
 var utils = new function() {
+
+    // GENERAL FUNCTIONS
+
     this.randint = function(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -9,18 +12,269 @@ var utils = new function() {
         console.log(param);
     }
 
-    this.mute = function(obj) {
-        obj.mute = true;
-        fallingman_image_list.push(images['mute']);
-
-    }
-
     this.remove = function(from, item) {
         for (var i = 0; i < from.length; i++) {
             if (from[i] == item) {
                 from.splice(i, 1);
             }
         }
+    }
+
+    this.in_list = function(value, list) {
+        return list.includes(value);
+    }
+
+    this.getitem = function(list, val, key) {
+        // returns listitem[key] == val from list if it can be found, otherwise false
+        for (item of list) {
+            if (item[key] == val) {
+                return item;
+            }
+        };
+        return false;
+    }
+
+    this.getlevel = function(list, val) {
+        for (item of list) {
+            if (item['id'] == val) {
+                return item.obj.level;
+            }
+        };
+        return 0;
+    }
+
+    this.reveal = function(id) {
+        var element = document.getElementById(id);
+        if (element !== 'undefined' && element !== null) {
+            element.classList.remove("hidden");
+        }
+    }
+
+    this.hide = function(id) {
+        var element = document.getElementById(id);
+        if (element !== 'undefined' && element !== null) {
+            element.classList.add("hidden");
+        }
+    }
+
+    this.enable = function(id) {
+        var element = document.getElementById(id);
+        if (element !== 'undefined' && element !== null) {
+            element.classList.remove("disabled");
+        }
+    }
+
+    this.disable = function(id) {
+        var element = document.getElementById(id);
+        if (element !== 'undefined' && element !== null) {
+            element.classList.add("disabled");
+        }
+    }
+
+    this.formatWithCommas = function(num, decimal) {
+        var hasDot = false;
+        var base = num.toString();
+        if (base.indexOf("e+") !== -1) {
+            var splittedExponentNum = base.split("e+"),
+            exponent = splittedExponentNum[1],
+            str = '';
+            if (base.indexOf(".") !== -1) {
+                base = splittedExponentNum[0].split(".");
+                exponent -= base[1].length;
+                base = base.join("");
+            }
+            while (exponent--) {
+                str = str + '0';
+            }
+            base = base + str;
+        }
+        if (base.indexOf(".") !== -1) {
+            hasDot = true;
+        }
+        if (decimal === 0) {
+            if (base.length <= 3 && !hasDot) return base;
+        }
+        if (typeof (decimal) === "undefined") {
+            decimal = 0;
+        }
+        var leftNum = hasDot ? base.substr(0, base.indexOf(".")) : base;
+        if (decimal === 0) {
+            if (num <= 999) return leftNum;
+            else return leftNum.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        }
+        var dec = hasDot ? base.substr(base.indexOf("."), decimal + 1) : ".";
+        while (dec.length < decimal+1) {
+            dec += "0";
+        }
+        if (num <= 999) return leftNum + dec;
+        else return leftNum.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + dec;
+    }
+
+    this.format_time = function(sec_num) {
+        var hours   = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+        if (hours   < 10) {hours   = "0"+hours;}
+        if (minutes < 10) {minutes = "0"+minutes;}
+        if (seconds < 10) {seconds = "0"+seconds;}
+        return hours+':'+minutes+':'+seconds;
+
+    }
+
+    this.bake_cookie = function(name, value) {
+        var cookie = [name, '=', JSON.stringify(value), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
+        document.cookie = cookie;
+    }
+
+    this.read_cookie = function(name) {
+        var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
+        result && (result = JSON.parse(result[1]));
+        return result;
+    }
+
+    this.save = function() {
+        utils.bake_cookie('achievements', achievements);
+    }
+
+    this.load = function() {
+        cookie = utils.read_cookie('achievements');
+        if (cookie !== undefined && cookie !== null && cookie.length > 0) {
+            achievements = cookie;
+            if (achievements.length > 0) {
+                utils.reveal('header');
+                achievements.forEach(achievement => {
+                    utils.reveal(achievement);
+                });
+            }
+        }
+    }
+
+    this.check_preqs = function(req_improvements, req_generators) {
+        var cond = true;
+        for (req of req_improvements) {
+            req_item = utils.getitem(improvements, req, 'id');
+            cond = cond && (req_item !== false && req_item.enabled == 1 && req_item.obj.level > 0);
+        }
+
+        for (req of req_generators) {
+            req_item = utils.getitem(generators, req, 'id');
+            cond = cond && (req_item !== false && req_item.enabled == 1 && req_item.obj.level > 0);
+        };
+
+        return cond;
+    }
+
+    this.check_event_triggered = function(req_events) {
+        var cond = true;
+        for (req of req_events) {
+            req_item = utils.getitem(events, req, 'id');
+            cond = cond && (req_item !== false && req_item.triggered == 1);
+        }
+        return cond;
+    }
+
+    this.unlock_achievement = function(id) {
+        achievements.push(id);
+        utils.reveal(id);
+        utils.save();
+    }
+
+    // FACTORIES
+
+    this.improvement_factory = function(level) {
+        var name = 'Very '.repeat(level) + "Painful Device";
+        var price = 1000000 * Math.pow(10, level);
+        var rate = 1.17;
+        var imp = new Improvement("tier2b", name, 1, price, rate, clickers['tier2b'], utils.improve);
+
+        if (level == 0) {
+            var imp_req = 'Eternal Fire';
+            var gen_req = 'More Pain';
+        } else {
+            var imp_req = 'Very '.repeat(level-1) + "Painful Device";
+            var gen_req = 'Much '.repeat(level-1) + "More Pain";
+        }
+
+        var threshold = price / 2;
+        var result = {
+            'id': name,
+            'tier': 'tier2b',
+            'obj': imp,
+            'threshold': threshold,
+            'req_improvements': [imp_req],
+            'req_generators': [gen_req],
+            'enabled': 0
+        }
+
+        return result;
+    }
+
+    this.generator_factory = function(level) {
+        var name = 'Much '.repeat(level) + "More Pain";
+        var prod = parseInt('4'.repeat(7 + level));
+        var price = 2000000 * Math.pow(10, level);
+        var rate = 1.17;
+        var gen = new Generator('tier2b', name, prod, false, price, rate);
+
+        if (level == 0) {
+            var imp_req = 'Eternal Fire';
+            var gen_req = 'More Pain';
+        } else {
+            var imp_req = 'Very '.repeat(level-1) + "Painful Device";
+            var gen_req = 'Much '.repeat(level-1) + "More Pain";
+        }
+
+        var threshold = price / 2;
+
+        var result = {
+            'id': name,
+            'tier': 'tier2b',
+            'obj': gen,
+            'threshold': threshold,
+            'req_improvements': [imp_req],
+            'req_generators': [gen_req],
+            'enabled': 0
+        }
+
+        return result;
+    }
+
+    this.event_factory = function(level) {
+        var name = 'tier2b_generate_imps_gens_' + level;
+
+        if (level == 0) {
+            var imp_req = 'Eternal Fire';
+            var gen_req = 'More Pain';
+        } else {
+            var imp_req = 'Very '.repeat(level-1) + "Painful Device";
+            var gen_req = 'Much '.repeat(level-1) + "More Pain";
+        }
+
+        var result = {
+            'id': name,
+            'tier': 'tier2b',
+            'obj': new Event(name,
+                             [{'key': imp_req, 'relation': 'has improvement'},
+                              {'key': gen_req, 'relation': 'has generator'},], utils.add_next_level, [level + 1]),
+            'triggered': 0
+        }
+
+        return result;
+    }
+
+    this.add_next_level = function(level) {
+        improvements.push(utils.improvement_factory(level));
+        generators.push(utils.generator_factory(level));
+        events.push(utils.event_factory(level));
+    }
+
+    // ANIMATION RELATED
+
+    this.mute = function(obj) {
+        obj.mute = true;
+        fallingman_image_list.push(images['mute']);
+
     }
 
     this.add_subtitle = function(obj) {
@@ -40,6 +294,21 @@ var utils = new function() {
         fallingman_image_list.splice(0, 0, images['eyes']);
     }
 
+    // EVENT HANDLERS
+
+    this.speed_up_time = function() {
+        generator_tick_time = Math.floor(generator_tick_time / 2);
+        generators.forEach(generator => {
+            clearInterval(generator.obj.tick);
+            generator.obj.set_tick(generator.obj, generator_tick_time)
+        });
+    }
+
+    this.improve = function(obj) {
+        obj.improve();
+        obj.renew_display();
+    }
+
     this.change_imaginary_to_misterious = function() {
         node = utils.getitem(generators, 'Imaginary Friend',  'id').obj.area;
         node.childNodes[0].replaceWith(document.createTextNode('Misterious Friend Level: '));
@@ -57,38 +326,7 @@ var utils = new function() {
                                                                       soul_canvas, soul_context, 'tier2a', target)
     }
 
-    this.filleventmodal = function(header, content, button) {
-        var modal = document.getElementById('event_modal');
-        modal.style.display = "block";
-
-        var modalheader = document.getElementById('event_modal_h1');
-        modalheader.innerHTML = header;
-
-        var modalcontent = document.getElementById('event_modal_content');
-        modalcontent.innerHTML = content;
-
-        var modalbutton = document.getElementById('event_modal_close_button');
-        modalbutton.innerHTML = button;
-        modalbutton.onclick = function() {
-            modal.style.display = "none";
-        };
-    }
-
-    this.contextmenu_open = function(event) {
-        event.preventDefault();
-        var ctxMenu = document.getElementById("ctxMenu");
-        ctxMenu.style.display = "block";
-        ctxMenu.style.left = (event.pageX - 10) + "px";
-        ctxMenu.style.top = (event.pageY - 10) + "px";
-    }
-
-    this.contextmenu_click = function(event) {
-        var ctxMenu = document.getElementById("ctxMenu");
-        ctxMenu.style.display = "";
-        ctxMenu.style.left = "";
-        ctxMenu.style.top = "";
-    }
-
+    // TRANSITIONS
     this.tier1_transition_to_tier2 = function() {
         // disable + hide sound progress bar
         if (animation_tickers.hasOwnProperty('tier1_tier2_transition')){
@@ -148,7 +386,11 @@ var utils = new function() {
 
         // activate event
         console.log('NO!');
-        utils.tier3b_lose_ending();
+        utils.filleventmodal("Then suffer for all eternity!", "", "You won't break me!");
+        burningman_canvas.addEventListener("click", clicked);
+        utils.hide('tier1');
+        utils.reveal('tier2b');
+        // utils.tier2b_lose_ending();
     }
 
     this.tier1_tier2_rightclick = function() {
@@ -169,6 +411,73 @@ var utils = new function() {
 		timer_display.innerHTML = utils.format_time(real_balance_seconds);
         utils.reveal('time_req_box');
     }
+
+    this.tier2b_bad_ending_question = function() {
+        // create modal question
+        var modal = document.getElementById('resistance_question_modal');
+        modal.style.display = "block";
+
+        // register button functions
+        var yesbutton = document.getElementById('resistance_question_yes_button');
+        yesbutton.onclick = utils.tier2b_bad_answer;
+
+        var nobutton = document.getElementById('resistance_question_no_button');
+        nobutton.onclick = utils.tier2b_good_answer;
+    }
+
+    this.tier2b_good_answer = function() {
+        // close modal
+        var modal = document.getElementById('resistance_question_modal');
+        modal.style.display = "none";
+
+        // popup info modal
+        utils.filleventmodal("You fool!", "You'll suffer until infinity and beyond!", "You won't break me!");
+    }
+
+    this.tier2b_bad_answer = function() {
+        // close modal
+        var modal = document.getElementById('resistance_question_modal');
+        modal.style.display = "none";
+
+        // popup info modal
+        utils.tier2b_lose_ending();
+    }
+
+    // MODALS
+
+    this.filleventmodal = function(header, content, button) {
+        var modal = document.getElementById('event_modal');
+        modal.style.display = "block";
+
+        var modalheader = document.getElementById('event_modal_h1');
+        modalheader.innerHTML = header;
+
+        var modalcontent = document.getElementById('event_modal_content');
+        modalcontent.innerHTML = content;
+
+        var modalbutton = document.getElementById('event_modal_close_button');
+        modalbutton.innerHTML = button;
+        modalbutton.onclick = function() {
+            modal.style.display = "none";
+        };
+    }
+
+    this.contextmenu_open = function(event) {
+        event.preventDefault();
+        var ctxMenu = document.getElementById("ctxMenu");
+        ctxMenu.style.display = "block";
+        ctxMenu.style.left = (event.pageX - 10) + "px";
+        ctxMenu.style.top = (event.pageY - 10) + "px";
+    }
+
+    this.contextmenu_click = function(event) {
+        var ctxMenu = document.getElementById("ctxMenu");
+        ctxMenu.style.display = "";
+        ctxMenu.style.left = "";
+        ctxMenu.style.top = "";
+    }
+
+    // ENDINGS
 
     this.tier3a_win_ending = function() {
         console.log('DEVIL WIN');
@@ -224,8 +533,8 @@ var utils = new function() {
         utils.unlock_achievement('devil_bad_ending');
     }
 
-    this.tier3b_lose_ending = function() {
-        console.log('DEVIL LOST');
+    this.tier2b_win_ending = function() {
+        console.log('RESIST WIN');
         // destruct game by removing main window
         utils.hide('main_window');
 
@@ -244,7 +553,34 @@ var utils = new function() {
         button.onclick = utils.reset;
 
         var endingspan = document.getElementById('ending');
-        endingspan.innerHTML = "Then suffer till the end of time!";
+        endingspan.innerHTML = "You managed to suffer until salvation!";
+        endingspan.append(button);
+
+        // unlock achievement
+        utils.unlock_achievement('resistance_good_ending');
+    }
+
+    this.tier2b_lose_ending = function() {
+        console.log('RESIST LOST');
+        // destruct game by removing main window
+        utils.hide('main_window');
+
+        // stop animations
+        for (ticker in animation_tickers) {
+            clearInterval(animation_tickers[ticker]);
+        }
+
+        // popup ending modal
+        var modal = document.getElementById('game_over_modal');
+        modal.style.display = "block";
+
+        var button = document.createElement('div');
+        button.append(document.createTextNode("Start over"));
+        button.classList.add('button');
+        button.onclick = utils.reset;
+
+        var endingspan = document.getElementById('ending');
+        endingspan.innerHTML = "You failed to withstand the torture of the devil!";
         endingspan.append(button);
 
         // unlock achievement
@@ -288,95 +624,19 @@ var utils = new function() {
         }, 2000);
     }
 
-    this.speed_up_time = function() {
-        generator_tick_time = Math.floor(generator_tick_time / 2);
-        generators.forEach(generator => {
-            clearInterval(generator.obj.tick);
-            generator.obj.set_tick(generator.obj, generator_tick_time)
-        });
-    }
-
-    this.improve = function(obj) {
-        obj.improve();
-        obj.renew_display();
-    }
-
-    this.getitem = function(list, val, key) {
-        // returns listitem[key] == val from list if it can be found, otherwise false
-        for (item of list) {
-            if (item[key] == val) {
-                return item;
-            }
-        };
-        return false;
-    }
-
-    this.getlevel = function(list, val) {
-        for (item of list) {
-            if (item['id'] == val) {
-                return item.obj.level;
-            }
-        };
-        return 0;
-    }
-
-    this.check_preqs = function(req_improvements, req_generators) {
-        var cond = true;
-        for (req of req_improvements) {
-            req_item = utils.getitem(improvements, req, 'id');
-            cond = cond && (req_item !== false && req_item.enabled == 1 && req_item.obj.level > 0);
-        }
-
-        for (req of req_generators) {
-            req_item = utils.getitem(generators, req, 'id');
-            cond = cond && (req_item !== false && req_item.enabled == 1 && req_item.obj.level > 0);
-        };
-
-        return cond;
-    }
-
-    this.check_event_triggered = function(req_events) {
-        var cond = true;
-        for (req of req_events) {
-            req_item = utils.getitem(events, req, 'id');
-            cond = cond && (req_item !== false && req_item.triggered == 1);
-        }
-        return cond;
-    }
-
-    this.reveal = function(id) {
-        var element = document.getElementById(id);
-        if (element !== 'undefined' && element !== null) {
-            element.classList.remove("hidden");
+    this.ultimate_ending = function() {
+        utils.filleventmodal('CONGRATULATIONS!',
+                             'You found all endings!<br>Thanks for playing my game!',
+                             'Whatever.');
+        var event_modal_close_button = document.getElementById('event_modal_close_button');
+        event_modal_close_button.onclick = function() {
+            achievements = [];
+            utils.save();
+            document.getElementsByTagName("BODY")[0].innerHTML = '';
         }
     }
 
-    this.hide = function(id) {
-        var element = document.getElementById(id);
-        if (element !== 'undefined' && element !== null) {
-            element.classList.add("hidden");
-        }
-    }
-
-    this.enable = function(id) {
-        var element = document.getElementById(id);
-        if (element !== 'undefined' && element !== null) {
-            element.classList.remove("disabled");
-        }
-    }
-
-    this.disable = function(id) {
-        var element = document.getElementById(id);
-        if (element !== 'undefined' && element !== null) {
-            element.classList.add("disabled");
-        }
-    }
-
-    this.unlock_achievement = function(id) {
-        achievements.push(id);
-        utils.reveal(id);
-        utils.save();
-    }
+    // RESET
 
     this.reset = function() {
         // hide everything
@@ -400,6 +660,9 @@ var utils = new function() {
             'tier3a_improvements_box',
             'tier3a_generators_box',
             'time_req_box',
+            'tier2b',
+            'tier2b_improvements_box',
+            'tier2b_generators_box',
         ]
         dom_elements_to_hide.forEach( element => {
             utils.hide(element);
@@ -412,6 +675,7 @@ var utils = new function() {
         test_generator.level = 0;
         test_generator2.level = 0;
         test_generator3.level = 0;
+        test_generator2b.level = 0;
 
         for (generator of generators) {
             generator.obj.level = 0;
@@ -466,84 +730,6 @@ var utils = new function() {
         fallingman_canvas.addEventListener("click", clicked);
     }
 
-    this.formatWithCommas = function(num, decimal) {
-        var hasDot = false;
-        var base = num.toString();
-        if (base.indexOf("e+") !== -1) {
-            var splittedExponentNum = base.split("e+"),
-            exponent = splittedExponentNum[1],
-            str = '';
-            if (base.indexOf(".") !== -1) {
-                base = splittedExponentNum[0].split(".");
-                exponent -= base[1].length;
-                base = base.join("");
-            }
-            while (exponent--) {
-                str = str + '0';
-            }
-            base = base + str;
-        }
-        if (base.indexOf(".") !== -1) {
-            hasDot = true;
-        }
-        if (decimal === 0) {
-            if (base.length <= 3 && !hasDot) return base;
-        }
-        if (typeof (decimal) === "undefined") {
-            decimal = 0;
-        }
-        var leftNum = hasDot ? base.substr(0, base.indexOf(".")) : base;
-        if (decimal === 0) {
-            if (num <= 999) return leftNum;
-            else return leftNum.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-        }
-        var dec = hasDot ? base.substr(base.indexOf("."), decimal + 1) : ".";
-        while (dec.length < decimal+1) {
-            dec += "0";
-        }
-        if (num <= 999) return leftNum + dec;
-        else return leftNum.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + dec;
-    }
-
-    this.bake_cookie = function(name, value) {
-        var cookie = [name, '=', JSON.stringify(value), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
-        document.cookie = cookie;
-    }
-
-    this.read_cookie = function(name) {
-        var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
-        result && (result = JSON.parse(result[1]));
-        return result;
-    }
-
-    this.save = function() {
-        utils.bake_cookie('achievements', achievements);
-    }
-
-    this.load = function() {
-        cookie = utils.read_cookie('achievements');
-        if (cookie !== undefined && cookie !== null && cookie.length > 0) {
-            achievements = cookie;
-            if (achievements.length > 0) {
-                utils.reveal('header');
-                achievements.forEach(achievement => {
-                    utils.reveal(achievement);
-                });
-            }
-        }
-    }
-
-    this.format_time = function(sec_num) {
-        var hours   = Math.floor(sec_num / 3600);
-        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-        var seconds = sec_num - (hours * 3600) - (minutes * 60);
-
-        if (hours   < 10) {hours   = "0"+hours;}
-        if (minutes < 10) {minutes = "0"+minutes;}
-        if (seconds < 10) {seconds = "0"+seconds;}
-        return hours+':'+minutes+':'+seconds;
-
-    }
 };
 
 // var dom = new function() {};

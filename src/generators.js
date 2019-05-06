@@ -286,5 +286,70 @@ var generators = [
         'req_improvements': ['Propaganda'],
         'req_generators': ['Convince', 'Trick', 'Command'],
         'enabled': 0
+    },
+
+    // TIER 2b
+    {
+        'id': 'Asceticism',
+        'tier': 'tier2b',
+        'obj': new Generator("tier2b", "Asceticism", 2, false, 20, 1.25),
+        'threshold': 50,
+        'req_improvements': ['Whip'],
+        'req_generators': [],
+        'enabled': 0
+    },
+    {
+        'id': 'Nailing',
+        'tier': 'tier2b',
+        'obj': new Generator("tier2b", "Nailing", 12, false, 200, 1.13),
+        'threshold': 50,
+        'req_improvements': ['Nails'],
+        'req_generators': [],
+        'enabled': 0
+    },
+    {
+        'id': 'Impaling',
+        'tier': 'tier2b',
+        'obj': new Generator("tier2b", "Impaling", 42, false, 2000, 1.13),
+        'threshold': 1000,
+        'req_improvements': ['Stake'],
+        'req_generators': [],
+        'enabled': 0
+    },
+    {
+        'id': 'Crusifiction',
+        'tier': 'tier2b',
+        'obj': new Generator("tier2b", "Crusifiction", 444, false, 20000, 1.17),
+        'threshold': 10000,
+        'req_improvements': ['Cross'],
+        'req_generators': [],
+        'enabled': 0
+    },
+    {
+        'id': 'Posession',
+        'tier': 'tier2b',
+        'obj': new Generator("tier2b", "Posession", 44444, false, 200000, 1.19),
+        'threshold': 100000,
+        'req_improvements': ['Demons'],
+        'req_generators': [],
+        'enabled': 0
+    },
+    {
+        'id': 'Burning',
+        'tier': 'tier2b',
+        'obj': new Generator("tier2b", "Burning", 444444, false, 2000000, 1.13),
+        'threshold': 1000000,
+        'req_improvements': ['Demons', 'Eternal Fire'],
+        'req_generators': ['Posession'],
+        'enabled': 0
+    },
+    {
+        'id': 'More Pain',
+        'tier': 'tier2b',
+        'obj': new Generator("tier2b", "More Pain", 4444444, false, 20000000, 1.19),
+        'threshold': 10000000,
+        'req_improvements': ['Eternal Fire'],
+        'req_generators': ['Burning'],
+        'enabled': 0
 	},
 ]

@@ -7,12 +7,6 @@ TECH
 - HMTL képernyőkép kialakítása, oszlopok, elrendezés
 - CSS stilizálás:
     - egységesítés
-- JS új resource-ok:
-    - pain
-- JS utils.js szétbontása
-    - dom utils
-    - event handlers (clickers-be rakni?)
-    - egyéb, mittudomén
 
 
 STORY
@@ -31,14 +25,12 @@ STORY
     - ha sikerül középen egy sávra beállítani a soul / minion count-ot 10 percre: GOOD ENDING
 
 
-RESISTANCE STORYLINE
-- első körben: GAME OVER [DONE]
-- második kör (végtelenségig megy):
-    - tűzbe esel, új currency: pain
-    - 1 000 000 000 pain-nél kérdés, hogy elég volt-e:
-        - igen: BAD ENDING
-        - no: folytatódik
-    - ha meg tudja venni a megvátás upgrade-et: GOOD ENDING
+RESISTANCE STORYLINE [DONE]
+- tűzbe esel, új currency: pain
+- 1 000 000 000 pain-nél kérdés, hogy elég volt-e:
+    - igen: BAD ENDING
+    - no: folytatódik
+- ha meg tudja venni a megvátás upgrade-et: GOOD ENDING
 
 
 WAKE UP STORYLINE [DONE]

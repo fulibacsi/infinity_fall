@@ -221,4 +221,78 @@ var improvements = [
         'req_generators': [],
         'enabled': 0
 	},
+
+	// TIER 2b
+	{
+        'id': 'Whip',
+		'tier': 'tier2b',
+        'obj': new Improvement("tier2b", "Whip", 2, 50, 1.25, clickers['tier2b'], utils.improve),
+        'threshold': 10,
+        'req_improvements': [],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Nails',
+		'tier': 'tier2b',
+        'obj': new Improvement("tier2b", "Nails", false, 20, 1.13, clickers['tier2b'], utils.improve),
+        'threshold': 10,
+        'req_improvements': [],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Stake',
+		'tier': 'tier2b',
+        'obj': new Improvement("tier2b", "Stake", 1, 400, 1.25, clickers['tier2b'], utils.improve),
+        'threshold': 200,
+        'req_improvements': ['Whip'],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Cross',
+		'tier': 'tier2b',
+        'obj': new Improvement("tier2b", "Cross", 1, 4000, 1.25, clickers['tier2b'], utils.improve),
+        'threshold': 2000,
+        'req_improvements': ['Stake', 'Nails'],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Demons',
+		'tier': 'tier2b',
+        'obj': new Improvement("tier2b", "Demons", false, 40000, 1.25, clickers['tier2b'], utils.improve),
+        'threshold': 20000,
+        'req_improvements': ['Cross'],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Eternal Fire',
+		'tier': 'tier2b',
+        'obj': new Improvement("tier2b", "Eternal Fire", 1, 1000000, 1.25, clickers['tier2b'], utils.improve),
+        'threshold': 200000,
+        'req_improvements': ['Demons'],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Painful Device',
+		'tier': 'tier2b',
+        'obj': new Improvement("tier2b", "Painful Device", 1, 10000000, 1.25, clickers['tier2b'], utils.improve),
+        'threshold': 2000000,
+        'req_improvements': ['Eternal Fire'],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Salvation',
+		'tier': 'tier2b',
+        'obj': new Improvement("tier2b", "Salvation", 1, 1000000000000000, 1.25, false, utils.tier2b_win_ending),
+        'threshold': 2000000000000,
+        'req_improvements': ['Eternal Fire'],
+        'req_generators': [],
+        'enabled': 0
+	},
 ]
