@@ -3,49 +3,17 @@ TODO
 
 TECH
 ----
-- JS a játék legelején csak az animáció látszódjon! [DONE]
-- HTML, JS áltnevezni a cookie-kat resource-ra [DONE]
-- JS CSS olvasható számformátum
 - JS int overflow?
-- JS span-okba tenni a létrehozott DOM-ot, hogy lehessen egyben kezelni [DONE]
-- JS fix: hide [DONE]
-- JS időgyorsítást megoldani [DONE]
-- JS új canvas: progressbar, függőleges, custom [DONE]
-- HMTL, JS elemek elnevezése (tier1-tier3) [DONE]
-- JS revew_resources átnevezése main_loop-ra [DONE]
 - HMTL képernyőkép kialakítása, oszlopok, elrendezés
-- CSS stilizálás: 
+- CSS stilizálás:
     - egységesítés
-    - imp, gen elkülönítése [DONE]
-    - resource-ok kiemelése
 - JS új resource-ok:
-    - soul
     - pain
-    - follower
-    - human / imp population
-- JS event handling
-    - resource check event condition [DONE]
-    - imp / gen check event [DONE]
-    - event check [DONE]
-- JS jobb klikk custom command [DONE]
-- JS main.js szétbontása [DONE]
-    - clickers
-    - improvements
-    - generators
-    - events
-    - main
 - JS utils.js szétbontása
-    - dom utils 
+    - dom utils
     - event handlers (clickers-be rakni?)
     - egyéb, mittudomén
-- HMTL, JS game over implementálása
-    - popup [DONE]
-    - reset game
-    - achievements
-- JS több clicker [DONE]
-- JS fix condition checking in utils.check_preqs and utils.check_event_triggered ?
 
- 
 
 STORY
 -----
@@ -55,26 +23,22 @@ STORY
 - választási lehetőség: vagy segítesz és a barátja leszel, vagy a szolgája, vagy jobb-klikk event (csak ilyenkor van bekapcsolva) [DONE]
 
 
-ÖRDÖG STORYLINE
+ÖRDÖG STORYLINE [DONE]
 - ha barátja leszel, szárnyakat növesztesz, és kattintásra embereket dobálsz a lyukba (célzás célkereszttel), új resource: soul [DONE]
-- ha elég sok soult gyűjtesz, egyre több szolgát tudsz venni (új currency: follower)
+- ha elég sok soult gyűjtesz, egyre több szolgát tudsz idézni a földre (új currency: minion)
 - soul ha eléri az 1milliárdot, új csökkenő progressbar 7milliárdról indul.
-    - ha elfogy: kihal a föld: GAME OVER
-    - ha közben elég sok followert gyűjtesz: respawn, ami embert termel?
-    - keltetőgép, ami embert termel
-    - ha sikerül középen egy sávra beállítani: GAME OVER (mittudomén 10 percre)
-    
+    - ha elfogy: kihal a föld: BAD ENDING
+    - ha sikerül középen egy sávra beállítani a soul / minion count-ot 10 percre: GOOD ENDING
+
 
 RESISTANCE STORYLINE
-- első körben: GAME OVER
-- második kör:
-    - tűzbe esel, új currency: pain?
-    - fájdalmat átveheted másoktól, így új currency: follower
-    - ha thresholdnál több follower: - lázadás a pokolban
-        - van egy teli bar, ami lassan termelődik, followerekért cserébe csökkented (update lehetőség: follower áldozás, amivel tápolod a többieket)
-        - ha sikerül elfogyasztani: 
-            - az ördög visszaküld a földre: GAME OVER
-            - ha kifogysz a followerekből: GAME OVER
+- első körben: GAME OVER [DONE]
+- második kör (végtelenségig megy):
+    - tűzbe esel, új currency: pain
+    - 1 000 000 000 pain-nél kérdés, hogy elég volt-e:
+        - igen: BAD ENDING
+        - no: folytatódik
+    - ha meg tudja venni a megvátás upgrade-et: GOOD ENDING
 
 
 WAKE UP STORYLINE [DONE]
@@ -93,4 +57,3 @@ ART
 opcionális:
 - improvementeknek, generátoroknak ikon?
 - SND saját shout hangok?
-

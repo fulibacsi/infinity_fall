@@ -90,12 +90,21 @@ var animations = new function() {
 
     this.hprogressbar = function(canvas, context, tier, target) {
         context.clearRect(0, 0, canvas.width, canvas.height);
-        width = Math.max(0, canvas.width - Math.floor(canvas.width * resource[tier] / target));
-        context.rect(0, 10, 300, 20);
-        context.fillRect(0, 10, width, canvas.height - 10);
-        ccontexttx.globalAlpha = 0.5;
+        width = Math.min(300, Math.floor(canvas.width * resource_produced[tier] / target));
+        // border
+        context.globalAlpha = 1.0;
+        context.fillStyle = "#000";
+        context.rect(0, 10, canvas.width-1, 20);
+        context.stroke();
+        // bar
+        context.fillStyle = "#ff0000";
+        context.globalAlpha = 0.95;
+        context.fillRect(0, 10, width, 20);
+        // highlight
+        context.globalAlpha = 0.5;
         context.fillStyle = "#ffff00";
-        context.fillRect(canvas.width / 2 - 10, 0, 20, canvas.height);
+        context.fillRect(canvas.width / 2 - 20, 0, 40, canvas.height);
+        // reset
         context.globalAlpha = 1.0;
         context.fillStyle = "#000";
     }
@@ -145,4 +154,9 @@ var wingedman_context = wingedman_canvas.getContext('2d');
 
 // progressbar canvas
 var soul_canvas = document.getElementById('soul_canvas');
-soul_context = soul_canvas.getContext('2d');
+var soul_context = soul_canvas.getContext('2d');
+
+//TIER 3 CANVAS
+// main canvas
+var follower_summon_canvas = document.getElementById('follower_summon_canvas');
+var follower_summon_context = follower_summon_canvas.getContext('2d');

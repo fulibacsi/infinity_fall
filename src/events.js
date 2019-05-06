@@ -11,7 +11,7 @@ class Event {
 	check() {
 		var cond = true;
 		this.conditions.forEach( condition => {
-			console.log('[Evaluating]', condition.tier, condition.variable, condition.relation, condition.key, condition.value);
+			// console.log('[Evaluating]', condition.tier, condition.variable, condition.relation, condition.key, condition.value);
 			if (condition.tier !== false && condition.tier !== undefined) {
 				var variable = window[condition.variable][condition.tier];
 			} else {
@@ -59,7 +59,7 @@ class Event {
                     local_cond = utils.check_event_triggered([condition.key]);
                     break;
 			}
-			console.log('[Result]', local_cond);
+			// console.log('[Result]', local_cond);
 			cond = cond && local_cond;
 		})
 		return cond;
@@ -129,7 +129,7 @@ var events = [
         'triggered': 0
     },
 
-    // TIER 2
+    // TIER 2a
     {
         'id': 'tier2a_improvement_unlock',
         'tier': 'tier2a',
@@ -145,13 +145,21 @@ var events = [
         'triggered': 0
     },
     {
+        'id': 'tier2a_population_progress_bar',
+        'tier': 'tier2a',
+        'obj': new Event('tier 2a population progressbar',
+                         [{'tier': 'tier2a', 'variable': 'resource_produced', 'relation': '>=', 'value': 100000000}], utils.turn_on_population_progress, [7500000000]),
+        'triggered': 0
+    },
+    {
         'id': 'tier2a_tier3a_resource_intro',
         'tier': 'tier2a',
         'obj': new Event('tier2a tier3a resource intro',
                          [{'key': 'Demon control', 'relation': 'has improvement'},
-                          {'key': 'Demon Overlords', 'relation': 'min generator level', 'value': 33}], utils.unlock_tier3a_resource, []),
+                          {'key': 'Demon Overlords', 'relation': 'min generator level', 'value': 10}], utils.unlock_tier3a_resource, []),
         'triggered': 0
     },
+    // TIER 3a
     {
         'id': 'tier3a_resource_unlock',
         'tier': 'tier2a',
@@ -161,32 +169,54 @@ var events = [
     },
     {
         'id': 'tier3a_improvements_unlock',
-        'tier': 'tier2a',
+        'tier': 'tier3a',
         'obj': new Event('tier3a improvement unlock',
                          [{'key': 'tier3a_resource_unlock', 'relation': 'triggered'},
-                          {'tier': 'tier3a', 'variable': 'resource_produced', 'relation': '>=', 'value': 10}], utils.reveal, ['tier3a_interface']),
+                          {'tier': 'tier3a', 'variable': 'resource_produced', 'relation': '>=', 'value': 10}], utils.reveal, ['tier3a_improvements_box']),
         'triggered': 0
     },
     {
         'id': 'tier3a_generators_unlock',
-        'tier': 'tier2a',
+        'tier': 'tier3a',
         'obj': new Event('tier3a generator unlock',
                          [{'key': 'tier3a_improvements_unlock', 'relation': 'triggered'},
-                         {'tier': 'tier3a', 'variable': 'resource_produced', 'relation': '>=', 'value': 60}], utils.reveal, ['tier3a_interface']),
+                         {'tier': 'tier3a', 'variable': 'resource_produced', 'relation': '>=', 'value': 60}], utils.reveal, ['tier3a_generators_box']),
         'triggered': 0
     },
     {
-        'id': 'tier2a_population_progress_bar',
-        'tier': 'tier2a',
-        'obj': new Event('tier 2a population progressbar',
-                         [{'tier': 'tier2a', 'variable': 'resource_produced', 'relation': '>=', 'value': 1000000000}], utils.turn_on_population_progress, [resource['tier4']]),
+        'id': 'tier3a_countdown_unlock',
+        'tier': 'tier3a',
+        'obj': new Event('tier3a countdown unlock',
+                         [{'tier': 'tier2a', 'variable': 'resource_produced', 'relation': '>=', 'value': 3000000000}], utils.tier3a_start_countdown, []),
         'triggered': 0
     },
     {
-        'id': 'tier2a_population_progress_bar',
-        'tier': 'tier2a',
-        'obj': new Event('tier 2a population progressbar',
-                         [{'tier': 'tier2a', 'variable': 'resource_produced', 'relation': '>=', 'value': 1000000000}], utils.turn_on_population_progress, [resource['tier4']]),
+        'id': 'tier3a_win',
+        'tier': 'tier3a',
+        'obj': new Event('tier3a win',
+                         [{'variable': 'req_balance_time', 'relation': '<=', 'value': 0}], utils.tier3a_win_ending, []),
         'triggered': 0
     },
+    {
+        'id': 'tier3a_lose',
+        'tier': 'tier3a',
+        'obj': new Event('tier3a lose',
+                         [{'tier': 'tier2a', 'variable': 'resource', 'relation': '>=', 'value': 7500000000}], utils.tier3a_lose_ending, []),
+        'triggered': 0
+    },
+    // TIER 2b
+    // {
+    //     'id': 'tier2b_unlock',
+    //     'tier': 'tier2b',
+    //     'obj': new Event('tier 2b unlock',
+    //                      [{'tier': 'tier2b', 'variable': 'resource_produced', 'relation': '>=', 'value': 1000000}], utils.unlock_tier4_resource, []),
+    //     'triggered': 0
+    // },
+    // {
+    //     'id': 'tier2b_stats_unlock',
+    //     'tier': 'tier2b',
+    //     'obj': new Event('tier 2b stats unlock',
+    //                      [{'key': 'tier2b_unlock', 'relation': 'triggered'}], utils.reveal, ['tier2b']),
+    //     'triggered': 0
+    // },
 ]

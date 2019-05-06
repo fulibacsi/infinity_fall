@@ -159,7 +159,7 @@ var improvements = [
 	{
         'id': 'Demon control',
 		'tier': 'tier2a',
-        'obj': new Improvement("tier2a", "Demon control", 1, 1000000, 1.25, false, clickers['tier2a'], utils.improve),
+        'obj': new Improvement("tier2a", "Demon control", 1, 1000000, 1.25, clickers['tier2a'], utils.improve),
         'threshold': 7500000,
         'req_improvements': ['Harvest power'],
         'req_generators': ['Demon Overlords'],
@@ -177,20 +177,47 @@ var improvements = [
 
 	// TIER 3a
 	{
-        'id': 'tier3a_up1',
+        'id': 'Public speech',
         'tier': 'tier3a',
-        'obj': new Improvement("tier3a", "tier3a up1", false, 50, 1.25, false, utils.improve),
+        'obj': new Improvement("tier3a", "Public speech", false, 50, 1.25, clickers['tier3a'], utils.improve),
         'threshold': 0,
         'req_improvements': [],
         'req_generators': [],
         'enabled': 0
 	},
 	{
-        'id': 'tier3a up2',
+        'id': 'Leadership',
         'tier': 'tier3a',
-        'obj': new Improvement("tier3a", "tier3a up2", false, 150, 1.25, false, utils.improve),
+        'obj': new Improvement("tier3a", "Leadership", false, 150, 1.20, clickers['tier3a'], utils.improve),
         'threshold': 0,
-        'req_improvements': ['tier3a_up1'],
+        'req_improvements': [],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Propaganda',
+        'tier': 'tier3a',
+        'obj': new Improvement("tier3a", "Propaganda", false, 500, 1.15, clickers['tier3a'], utils.improve),
+        'threshold': 0,
+        'req_improvements': ['Public speech', 'Leadership'],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Personal cult',
+        'tier': 'tier3a',
+        'obj': new Improvement("tier3a", "Personal cult", false, 1500, 1.25, clickers['tier3a'], utils.improve),
+        'threshold': 0,
+        'req_improvements': ['Propaganda'],
+        'req_generators': [],
+        'enabled': 0
+	},
+	{
+        'id': 'Dictatorship',
+        'tier': 'tier3a',
+        'obj': new Improvement("tier3a", "Dictatorship", 1, 150000, 1.25, clickers['tier3a'], utils.improve),
+        'threshold': 0,
+        'req_improvements': ['Propaganda', 'Personal cult'],
         'req_generators': [],
         'enabled': 0
 	},

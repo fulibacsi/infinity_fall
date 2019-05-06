@@ -67,9 +67,11 @@ class Generator
 			console.log(this.name, 'levelled up [', utils.formatWithCommas(this.get_price()), 'cost /', resource[this.tier], 'resource]: ', this.level + 1);
 			resource[this.tier] -= this.get_price();
 			this.level += 1;
-			altogether_productivity[this.tier] += this.productivity;
+            altogether_productivity[this.tier] += this.productivity;
+            if (this.get_cost() > 0) {
+                altogether_cost[this.production_cost.tier] += this.get_cost();
+            }
 			this.renew_display();
-			// clickers[this.tier].renew_display();
 		}
 	}
 
@@ -107,11 +109,19 @@ class Generator
 		}
 	}
 
+    get_cost() {
+        if (this.production_cost === false) {
+            return 0;
+        }
+        var actual_cost = this.get_production_value() * this.production_cost.value;
+        return actual_cost;
+    }
+
 	update_funds() {
 		if (this.production_cost !== false) {
-			var actual_cost = this.get_production_value() * this.production_cost.value;
-			resource[this.production_cost.tier] -= actual_cost;
-			resource_display[this.production_cost.tier] = utils.formatWithCommas(resource[this.production_cost.tier]);
+            resource[this.production_cost.tier] -= this.get_cost();
+            resource_produced[this.production_cost.tier] -= this.get_cost();
+			resource_display[this.production_cost.tier].innerHTML = utils.formatWithCommas(resource[this.production_cost.tier]);
 			resources_produced_display[this.production_cost.tier].innerHTML = utils.formatWithCommas(resource_produced[this.production_cost.tier]);
 		}
 	}
@@ -215,7 +225,7 @@ var generators = [
     {
         'id': 'Demon Overlords',
         'tier': 'tier2a',
-        'obj': new Generator("tier2a", "Hell Lords", 66666, false, 666666, 1.27),
+        'obj': new Generator("tier2a", "Demon Overlords", 66666, false, 666666, 1.27),
         'threshold': 333333,
         'req_improvements': [],
         'req_generators': ['Hell Lords'],
@@ -224,12 +234,57 @@ var generators = [
 
     // TIER 3a
     {
-        'id': 'tier3a_gen1',
+        'id': 'Convince',
         'tier': 'tier3a',
-        'obj': new Generator("tier3a", "tier3a_gen1", 1, {'tier': 'tier2a', 'value': 1}, 100, 1.13),
-        'threshold': 33,
-        'req_improvements': ['tier3a_up2'],
+        'obj': new Generator("tier3a", "Convince power", 1, {'tier': 'tier2a', 'value': 1}, 100, 1.20),
+        'threshold': 50,
+        'req_improvements': ['Public speech'],
         'req_generators': [],
+        'enabled': 0
+    },
+    {
+        'id': 'Liberate',
+        'tier': 'tier3a',
+        'obj': new Generator("tier3a", "Liberate", 2, {'tier': 'tier2a', 'value': 1}, 200, 1.13),
+        'threshold': 50,
+        'req_improvements': ['Leadership'],
+        'req_generators': [],
+        'enabled': 0
+    },
+    {
+        'id': 'Trick',
+        'tier': 'tier3a',
+        'obj': new Generator("tier3a", "Trick", 100, {'tier': 'tier2a', 'value': 1.02}, 1000, 1.20),
+        'threshold': 700,
+        'req_improvements': ['Propaganda'],
+        'req_generators': ['Convince'],
+        'enabled': 0
+    },
+    {
+        'id': 'Lead',
+        'tier': 'tier3a',
+        'obj': new Generator("tier3a", "Lead", 1000, {'tier': 'tier2a', 'value': 1.05}, 5000, 1.21),
+        'threshold': 2500,
+        'req_improvements': ['Propaganda'],
+        'req_generators': ['Convince', 'Trick'],
+        'enabled': 0
+    },
+    {
+        'id': 'Command',
+        'tier': 'tier3a',
+        'obj': new Generator("tier3a", "Command", 10000, {'tier': 'tier2a', 'value': 1.06}, 50000, 1.23),
+        'threshold': 25000,
+        'req_improvements': ['Propaganda'],
+        'req_generators': ['Convince', 'Trick'],
+        'enabled': 0
+    },
+    {
+        'id': 'Force',
+        'tier': 'tier3a',
+        'obj': new Generator("tier3a", "Force", 100000, {'tier': 'tier2a', 'value': 1.04}, 150000, 1.25),
+        'threshold': 75000,
+        'req_improvements': ['Propaganda'],
+        'req_generators': ['Convince', 'Trick', 'Command'],
         'enabled': 0
 	},
 ]

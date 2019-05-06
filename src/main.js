@@ -1,21 +1,27 @@
 // main loop
 function main_loop() {
+	// resource update
 	tiers.forEach(name => {
 		resource_display[name].innerHTML = utils.formatWithCommas(resource[name]);
 		resources_produced_display[name].innerHTML = utils.formatWithCommas(resource_produced[name]);
 		altogether_productivity_display[name].innerHTML = utils.formatWithCommas(altogether_productivity[name]);
-	})
+		if (altogether_cost_display.hasOwnProperty(name)) {
+			altogether_cost_display[name].innerHTML = utils.formatWithCommas(altogether_cost[name]);
+		}
+	});
 
+	// events
 	events.forEach(event => {
 		if (event.triggered == 0) {
-			console.log('Checking', event.id);
+			// console.log('Checking', event.id);
 			if (event.obj.check()) {
 				event.obj.trigger();
 				event.triggered = 1;
 			}
 		}
-	})
+	});
 
+	// improvements
 	improvements.forEach(improvement => {
 		if(this.resource_produced[improvement.tier] >= improvement.threshold
 		   && improvement.enabled == 0
@@ -33,6 +39,7 @@ function main_loop() {
 		}
 	});
 
+    // generators
 	generators.forEach(generator => {
 		if(this.resource_produced[generator.tier] >= generator.threshold
 		   && generator.enabled == 0
@@ -49,6 +56,13 @@ function main_loop() {
 			utils.enable(generator.obj.button.id);
 		}
 	});
+
+	// checking balance
+	if (resource['tier2a'] > 3000000000 && resource['tier2a'] < 4500000000) {
+		req_balance_time--;
+		var real_balance_seconds = Math.floor(req_balance_time / 2);
+		timer_display.innerHTML = utils.format_time(real_balance_seconds);
+	}
 }
 
 // click event
@@ -60,37 +74,10 @@ fallingman_canvas.addEventListener("click", clicked);
 
 
 // main loop
-main_loop_ticker = setInterval(main_loop, logic_tick_time);
+var main_loop_ticker = setInterval(main_loop, logic_tick_time);
 // animation loops
-animation_tickers = {
+var animation_tickers = {
     'tier1': setInterval(animations.flip, anim_tick_time,
                          fallingman_canvas, fallingman_context,
                          fallingman_image_list, fallingman_text_list),
-}
-
-
-// TESTING FUNCTIONALITY
-function enable_test() {
-	utils.getitem(events, 'initial_click', 'id').obj.trigger();
-	utils.getitem(events, 'tier1_improvement_unlock', 'id').obj.trigger();
-	utils.getitem(events, 'tier1_generator_unlock', 'id').obj.trigger();
-	utils.reveal('test');
-}
-
-// test functions
-var test_tier2_transition_button = document.getElementById('test_tier2_transition');
-test_tier2_transition_button.onclick = utils.tier1_transition_to_tier2;
-
-var test_db_set_button = document.getElementById('test_db_value_set');
-test_db_set_button.onclick = function() {
-	var value = parseInt(document.getElementById('test_db_input').value);
-	resource['tier1'] = value;
-}
-
-var test_generator = new Generator("tier1", "TEST", 1, 1, 1.0);
-var test_db_prod_set_button = document.getElementById('test_db_prod_set');
-test_db_prod_set_button.onclick = function() {
-	var value = parseInt(document.getElementById('test_db_prod_input').value);
-	test_generator.productivity = value;
-	test_generator.set_visible();
 }

@@ -53,7 +53,7 @@ var utils = new function() {
 
     this.turn_on_population_progress = function(target=100) {
         utils.reveal('soul_canvas');
-        animation_tickers['tier2a_population_progress'] = setInterval(animations.vprogressbar, anim_tick_time,
+        animation_tickers['tier2a_population_progress'] = setInterval(animations.hprogressbar, anim_tick_time,
                                                                       soul_canvas, soul_context, 'tier2a', target)
     }
 
@@ -91,7 +91,9 @@ var utils = new function() {
 
     this.tier1_transition_to_tier2 = function() {
         // disable + hide sound progress bar
-        clearInterval(animation_tickers['tier1_tier2_transition']);
+        if (animation_tickers.hasOwnProperty('tier1_tier2_transition')){
+            clearInterval(animation_tickers['tier1_tier2_transition']);
+        }
         utils.hide('sound_canvas');
 
         // create modal question
@@ -117,19 +119,16 @@ var utils = new function() {
         modal.style.display = "none";
 
         // remove eventlisteners
-        modal.removeEventListener("contextmenu", utils.contextmenu_open);
-        modal.removeEventListener("click", utils.contextmenu_click);
         fallingman_canvas.removeEventListener("click", clicked);
 
         // stop animations
-        clearInterval(animation_tickers['tier1']);
-
-        // remove modal
-        modal.parentNode.removeChild(modal);
+        for (ticker in animation_tickers) {
+            clearInterval(animation_tickers[ticker]);
+        }
 
         // activate event
         utils.filleventmodal("Good-good", "Now collect me souls!", "As you wish... Master");
-        wingedman_canvas.addEventListener("click", clicked, tier='tier2a');
+        wingedman_canvas.addEventListener("click", clicked);
         utils.hide('tier1');
         utils.reveal('tier2a');
     }
@@ -138,24 +137,136 @@ var utils = new function() {
         // close modal
         var modal = document.getElementById('question_modal')
         modal.style.display = "none";
+
         // remove eventlisteners
-        modal.removeEventListener("contextmenu", utils.contextmenu_open);
-        modal.removeEventListener("click", utils.contextmenu_click);
-        // remove modal
-        modal.parentNode.removeChild(modal);
+        fallingman_canvas.removeEventListener("click", clicked);
+
+        // stop animations
+        for (ticker in animation_tickers) {
+            clearInterval(animation_tickers[ticker]);
+        }
+
         // activate event
         console.log('NO!');
-        var modal = document.getElementById('game_over_modal');
-        modal.style.display = "block";
+        utils.tier3b_lose_ending();
     }
 
     this.tier1_tier2_rightclick = function() {
+        utils.secret_ending();
+    }
+
+    this.unlock_tier3a_resource = function() {
+        console.log('REVEAL MINIONS');
+        utils.filleventmodal('Use souls to summon minions',
+                             'You can use souls to populate earth.',
+                             'OK');
+        utils.reveal('tier3a');
+        follower_summon_canvas.addEventListener("click", clicked);
+    }
+
+    this.tier3a_start_countdown = function() {
+        var real_balance_seconds = Math.floor(req_balance_time / 2);
+		timer_display.innerHTML = utils.format_time(real_balance_seconds);
+        utils.reveal('time_req_box');
+    }
+
+    this.tier3a_win_ending = function() {
+        console.log('DEVIL WIN');
         // destruct game by removing main window
-        var main_window = document.getElementById('main_window');
-        main_window.innerHTML = '';
-        // removing previous modal
+        utils.hide('main_window');
+
+        // stop animations
+        for (ticker in animation_tickers) {
+            clearInterval(animation_tickers[ticker]);
+        }
+
+        // popup ending modal
+        var modal = document.getElementById('game_over_modal');
+        modal.style.display = "block";
+
+        var button = document.createElement('div');
+        button.append(document.createTextNode("Start over"));
+        button.classList.add('button');
+        button.onclick = utils.reset;
+
+        var endingspan = document.getElementById('ending');
+        endingspan.innerHTML = "Even when siding with the devil, you found the balance.";
+        endingspan.append(button);
+
+        // unlock achievement
+        utils.unlock_achievement('devil_good_ending');
+    }
+
+    this.tier3a_lose_ending = function() {
+        console.log('DEVIL LOST');
+        // destruct game by removing main window
+        utils.hide('main_window');
+
+        // stop animations
+        for (ticker in animation_tickers) {
+            clearInterval(animation_tickers[ticker]);
+        }
+
+        // popup ending modal
+        var modal = document.getElementById('game_over_modal');
+        modal.style.display = "block";
+
+        var button = document.createElement('div');
+        button.append(document.createTextNode("Start over"));
+        button.classList.add('button');
+        button.onclick = utils.reset;
+
+        var endingspan = document.getElementById('ending');
+        endingspan.innerHTML = "Congratulations!<br>You wiped out the human race from earth!";
+        endingspan.append(button);
+
+        // unlock achievement
+        utils.unlock_achievement('devil_bad_ending');
+    }
+
+    this.tier3b_lose_ending = function() {
+        console.log('DEVIL LOST');
+        // destruct game by removing main window
+        utils.hide('main_window');
+
+        // stop animations
+        for (ticker in animation_tickers) {
+            clearInterval(animation_tickers[ticker]);
+        }
+
+        // popup ending modal
+        var modal = document.getElementById('game_over_modal');
+        modal.style.display = "block";
+
+        var button = document.createElement('div');
+        button.append(document.createTextNode("Start over"));
+        button.classList.add('button');
+        button.onclick = utils.reset;
+
+        var endingspan = document.getElementById('ending');
+        endingspan.innerHTML = "Then suffer till the end of time!";
+        endingspan.append(button);
+
+        // unlock achievement
+        utils.unlock_achievement('resistance_bad_ending');
+    }
+
+    this.secret_ending = function() {
+        // destruct game by removing main window
+        utils.hide('main_window');
+
+        // stop animations
+        for (ticker in animation_tickers) {
+            clearInterval(animation_tickers[ticker]);
+        }
+
+        // removing previous modals / contents
         var modal = document.getElementById('question_modal')
         modal.style.display = "none";
+
+        var endingspan = document.getElementById('ending');
+        endingspan.innerHTML = '';
+
         // game over modal
         setTimeout(function() {
             var modal = document.getElementById('game_over_modal');
@@ -171,17 +282,10 @@ var utils = new function() {
                     var endingspan = document.getElementById('ending');
                     endingspan.innerHTML = "It must've been a bad dream.<br/>That must be it... Or is it?<br/>";
                     endingspan.append(button);
+                    utils.unlock_achievement('wake_up_ending');
                 }, 10000)
             }, 1000)
         }, 2000);
-    }
-
-    this.unlock_tier3a_resource = function() {
-        console.log('REVEAL FOLLOWERS');
-        utils.filleventmodal('Convert souls to followers',
-                             'You can use souls to summon followers',
-                             'OK');
-        utils.reveal('tier3a');
     }
 
     this.speed_up_time = function() {
@@ -269,21 +373,97 @@ var utils = new function() {
     }
 
     this.unlock_achievement = function(id) {
+        achievements.push(id);
         utils.reveal(id);
+        utils.save();
     }
 
     this.reset = function() {
-        alert('RESET!');
         // hide everything
+        var dom_elements_to_hide = [
+            'header',
+            'devil_good_ending',
+            'devil_bad_ending',
+            'resistance_good_ending',
+            'resistance_bad_ending',
+            'wake_up_ending',
+            'sound_canvas',
+            'tier1_interface',
+            'tier1_improvements_box',
+            'tier1_generators_box',
+            'tier2a',
+            'tier2a_improvements_box',
+            'tier2a_generators_box',
+            'soul_canvas',
+            'tier3a',
+            'convert_followers_button',
+            'tier3a_improvements_box',
+            'tier3a_generators_box',
+            'time_req_box',
+        ]
+        dom_elements_to_hide.forEach( element => {
+            utils.hide(element);
+        });
+
+        var modal = document.getElementById('game_over_modal');
+        modal.style.display = "none";
 
         // set everything to init
+        test_generator.level = 0;
+        test_generator2.level = 0;
+        test_generator3.level = 0;
+
+        for (generator of generators) {
+            generator.obj.level = 0;
+            generator.enabled = 0;
+        }
+
+        for (improvement of improvements) {
+            improvement.obj.level = 0;
+            improvement.enabled = 0;
+        }
+
+        for (tier of tiers) {
+            clickers[tier].level = 1;
+            resource[tier] = 0;
+            resource_produced[tier] = 0;
+            altogether_productivity[tier] = 0;
+        }
+
+        generator_tick_time = 1000;
+        logic_tick_time = 500;
+
+        generators.forEach(generator => {
+            clearInterval(generator.obj.tick);
+            generator.obj.set_tick(generator.obj, generator_tick_time)
+        });
+
+        for (event of events) {
+            event.obj.triggered = 0;
+            event.triggered = 0;
+        }
+
+        fallingman_image_list = [images['wall'], images['man'],];
+
+        req_balance_time = 10 * 60 * 2;
+        var real_balance_seconds = Math.floor(req_balance_time / 2);
+        timer_display = document.getElementById('time_req');
+		timer_display.innerHTML = utils.format_time(real_balance_seconds);
 
         // reveal achievements
-        achievements.forEach(achievement => {
-            utils.reveal(achievement);
-        });
-        // reveal tier1
+        if (achievements.length > 0) {
+            utils.reveal('header');
+            achievements.forEach(achievement => {
+                utils.reveal(achievement);
+            });
+        }
 
+        utils.reveal('main_window');
+        utils.reveal('tier1');
+        animation_tickers['tier1'] = setInterval(animations.flip, anim_tick_time,
+                                                 fallingman_canvas, fallingman_context,
+                                                 fallingman_image_list, fallingman_text_list)
+        fallingman_canvas.addEventListener("click", clicked);
     }
 
     this.formatWithCommas = function(num, decimal) {
@@ -325,67 +505,45 @@ var utils = new function() {
         else return leftNum.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + dec;
     }
 
-    this.numberCruncher = function(number, decimals){
-        var suffix = "";
-        if (decimals == undefined){decimals = 2;}
-        var precision = decimals;
-        if (number>999999999999999999999999999999999999999999999999999){
-            number = number/1000000000000000000000000000000000000000000000000000;
-            suffix = "sexdecillion";
-        } else if (number>999999999999999999999999999999999999999999999999){
-            number = number/1000000000000000000000000000000000000000000000000;
-            suffix = "quindecillion";
-        } else if (number>999999999999999999999999999999999999999999999){
-            number = number/1000000000000000000000000000000000000000000000;
-            suffix = "quattuordecillion";
-        } else if (number>999999999999999999999999999999999999999999){
-            number = number/1000000000000000000000000000000000000000000;
-            suffix = "tredecillion";
-        } else if (number>999999999999999999999999999999999999999){
-            number = number/1000000000000000000000000000000000000000;
-            suffix = "duodecillion";
-        } else if (number>999999999999999999999999999999999999){
-            number = number/1000000000000000000000000000000000000;
-            suffix = "undecillion";
-        } else if (number>999999999999999999999999999999999){
-            number = number/1000000000000000000000000000000000;
-            suffix = "decillion";
-        } else if (number>999999999999999999999999999999){
-            number = number/1000000000000000000000000000000;
-            suffix = "nonillion";
-        } else if (number>999999999999999999999999999){
-            number = number/1000000000000000000000000000;
-            suffix = "octillion";
-        } else if (number>999999999999999999999999){
-            number = number/1000000000000000000000000;
-            suffix = "septillion";
-        } else if (number>999999999999999999999){
-            number = number/1000000000000000000000;
-            suffix = "sextillion";
-        } else if (number>999999999999999999){
-            number = number/1000000000000000000;
-            suffix = "quintillion";
-        } else if (number>999999999999999){
-            number = number/1000000000000000;
-            suffix = "quadrillion";
-        } else if (number>999999999999){
-            number = number/1000000000000;
-            suffix = "trillion";
-        } else if (number>999999999){
-            number = number/1000000000;
-            suffix = "billion";
-        } else if (number>999999){
-            number = number/1000000;
-            suffix = "million";
-        } else if (number>999){
-            number = number/1000;
-            suffix = "thousand";
-        }  else if (number<1000){
-            precision = 0;
-        }
-        return number.toFixed(precision) + " " + suffix;
+    this.bake_cookie = function(name, value) {
+        var cookie = [name, '=', JSON.stringify(value), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
+        document.cookie = cookie;
     }
 
+    this.read_cookie = function(name) {
+        var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
+        result && (result = JSON.parse(result[1]));
+        return result;
+    }
+
+    this.save = function() {
+        utils.bake_cookie('achievements', achievements);
+    }
+
+    this.load = function() {
+        cookie = utils.read_cookie('achievements');
+        if (cookie !== undefined && cookie !== null && cookie.length > 0) {
+            achievements = cookie;
+            if (achievements.length > 0) {
+                utils.reveal('header');
+                achievements.forEach(achievement => {
+                    utils.reveal(achievement);
+                });
+            }
+        }
+    }
+
+    this.format_time = function(sec_num) {
+        var hours   = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+        if (hours   < 10) {hours   = "0"+hours;}
+        if (minutes < 10) {minutes = "0"+minutes;}
+        if (seconds < 10) {seconds = "0"+seconds;}
+        return hours+':'+minutes+':'+seconds;
+
+    }
 };
 
 // var dom = new function() {};

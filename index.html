@@ -1,7 +1,6 @@
 <html>
 	<head>
 		<title>Infinity Fall</title>
-		<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 		<link rel="stylesheet" type="text/css" href="interface.css" />
 	</head>
 	<body class='noselect'>
@@ -45,12 +44,7 @@
 				<div id="tier2a_graphics">
 					<canvas id="wingedman_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000" tier='tier2a'></canvas><br>
 					<canvas id="soul_canvas" class="hidden" width="200" height="40" style="border: none; background-color: #FFF"></canvas><br>
-					<div id="tier4" class="statsbox hidden">
-						Remaining people: <span id="population"></span><br>
-						Raised people: <span id="poople_raised"></span><br>
-						Conversion rate: <span id="tier4_clicker_productivity" class="hidden"></span><br>
-						<span id="people_production_display" class="hidden">People production: <span id="people_production"></span></span>
-					</div>
+					<div id='time_req_box' class='statsbox hidden'><h1>Time remaining till perfect balance: <span id="time_req"></span></h1></div>
 				</div>
 
 				<div id="tier2a_interface">
@@ -78,15 +72,15 @@
 			<div id='tier3a' class='tier column hidden'>
 				<div id="tier3a_graphics">
 					<canvas id="follower_summon_canvas" width="200" height="200" style="border:1px solid #000000; background-color: #000000" tier='tier3a'></canvas>
-					<div id="convert_followers_button" class="hidden button">Convert followers to people</div>
 				</div>
 
 				<div id="tier3a_interface">
-					<div class='tier3a_resource'><h1>Followers: <span id="summoned_followers"></span></h1></div><br>
+					<div class='tier3a_resource'><h1>Minions: <span id="summoned_followers"></span></h1></div><br>
 					<div id='tier3a_stats_box' class='statsbox'>
-						Followers collected: <span id="followers_summoned"></span><br>
-						Followers / summon: <span id="tier3a_clicker_productivity"></span><br>
-						Follower summining / sec: <span id="tier3a_altogether_productivity"></span><br>
+						Minions summoned: <span id="followers_summoned"></span><br>
+						Minions / click: <span id="tier3a_clicker_productivity"></span><br>
+						Minion summon / sec: <span id="tier3a_altogether_productivity"></span><br>
+						Soul cost / sec: <span id="tier3a_soul_cost"></span><br>
 					</div>
 
 
@@ -115,6 +109,13 @@
 			</div>
 		</div>
 
+		<div id="resistance_question_modal" class="modal">
+			<div class="modal-content">
+				<h1>Was that enough?</h1>
+				<div id="resistance_question_yes_button" class="button">YES, PLEASE STOP.</div> <div id="resistance_question_no_button" class="button">YOU'LL NEVER BREAK ME!</div>
+			</div>
+		</div>
+
 		<div id="event_modal" class="modal">
 			<div class="modal-content">
 				<h1 id="event_modal_h1"></h1>
@@ -132,9 +133,17 @@
 
 		<div id="test" class='hidden' style="border: 1px solid #000; width: 300px; margin-top: 30px; padding: 10px">
 			<h1>TEST WINDOW</h1>
-			<input id="test_db_input" type="number"><div id="test_db_value_set" class=button>set db value</div><br>
+			<h2>TIER1</h2>
 			<input id="test_db_prod_input" type="number"><div id="test_db_prod_set" class=button>set db prod</div><br>
 			<div id='test_tier2_transition' class='button'>test tier2 transition</div>
+			<hr>
+			<h2>TIER2a</h2>
+			<input id="test_soul_prod_input" type="number"><div id="test_soul_prod_set" class=button>set soul prod</div><br>
+			<div id='test_tier3_transition' class='button'>test tier3 transition</div>
+			<hr>
+			<h2>TIER3a</h2>
+			<input id="test_follower_prod_input" type="number"><div id="test_follower_prod_set" class=button>set db prod</div><br>
+
 		</div>
 
 		<script type="text/javascript" src="src/utils.js"></script>
@@ -150,5 +159,6 @@
 		<script type="text/javascript" src="src/events.js"></script>
 
 		<script type="text/javascript" src="src/main.js"></script>
+		<script type="text/javascript" src="src/test.js"></script>
 	</body>
 </html>

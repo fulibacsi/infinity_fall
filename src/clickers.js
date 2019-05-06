@@ -1,8 +1,9 @@
 class Clicker
 {
-	constructor(tier, cost=false, mute=true, subtitle=false) {
+	constructor(tier, multiplier=1.0, cost=false, mute=true, subtitle=false) {
 		this.tier = tier;
-		this.level = 1;
+        this.level = 1;
+        this.multiplier = multiplier;
 		this.cost = cost;
 		this.mute = mute;
 		this.subtitle = subtitle;
@@ -35,13 +36,13 @@ class Clicker
 	update_funds() {
 		if (this.cost !== false) {
 			resource[this.cost.tier] -= this.cost.value;
-			resource_display[this.cost.tier] = utils.formatWithCommas(resource[this.cost.tier]);
+			resource_display[this.cost.tier].innerHTML = utils.formatWithCommas(resource[this.cost.tier]);
 			resources_produced_display[this.cost.tier].innerHTML = utils.formatWithCommas(resource_produced[this.cost.tier]);
 		}
 	}
 
 	get_production_value() {
-		return this.level;
+		return this.multiplier * this.level;
 	}
 
 	improve() {
@@ -57,8 +58,7 @@ class Clicker
 }
 
 var clickers = {
-	'tier1': new Clicker('tier1', false, false, false), // shouts
-	'tier2a': new Clicker('tier2a', false, true, false), // souls
-	'tier3a': new Clicker('tier2a', {'tier': 'tier2a', 'value': 1}, true, false), // summoned followers
-	//'tier4':  new Clicker('tier4', {'tier': 'tier3a', 'value': 1}, true, false) // people
+	'tier1':  new Clicker('tier1', 1.0, false, false, false), // shouts
+	'tier2a': new Clicker('tier2a', 1.0, false, true, false), // souls
+	'tier3a': new Clicker('tier3a', 1.0, {'tier': 'tier2a', 'value': 1}, true, false), // summoned followers
 };
