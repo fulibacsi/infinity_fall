@@ -338,8 +338,13 @@ var utils = new function() {
     }
 
     this.change_imaginary_to_misterious = function() {
-        node = utils.getitem(generators, 'Imaginary Friend',  'id').obj.area;
-        node.childNodes[0].replaceWith(document.createTextNode('Misterious Friend Level: '));
+        node = utils.getitem(generators, 'Imaginary Friend',  'id').obj;
+        node.name = 'Misterious Friend';
+        node.button.innerHTML = '';
+        node.button.append(document.createTextNode(node.name));
+        node.button.append(document.createTextNode(" ("));
+        node.button.append(node.level_display);
+        node.button.append(document.createTextNode(")"));
     }
 
     this.turn_on_sound_progress = function(target=100) {
