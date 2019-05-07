@@ -52,6 +52,7 @@ class Improvement
 	improve() {
 		if(resource[this.tier] >= this.get_price() && this.not_maxed()) {
 			console.log(this.name, 'levelled up [', this.get_price(), 'cost /', resource[this.tier], 'resource]: ', this.level + 1);
+			ga('send', 'event', ['Improvement'], ['click'], [this.tier], [1]);
 			resource[this.tier] -= this.get_price();
 			this.level += 1;
 			this.effect(this.target);

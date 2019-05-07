@@ -64,7 +64,8 @@ class Generator
 
 	improve() {
 		if(resource[this.tier] >= this.get_price()) {
-			console.log(this.name, 'levelled up [', utils.formatWithCommas(this.get_price()), 'cost /', resource[this.tier], 'resource]: ', this.level + 1);
+            console.log(this.name, 'levelled up [', utils.formatWithCommas(this.get_price()), 'cost /', resource[this.tier], 'resource]: ', this.level + 1);
+            ga('send', 'event', ['Generator'], ['click'], [this.tier], [1]);
 			resource[this.tier] -= this.get_price();
 			this.level += 1;
             altogether_productivity[this.tier] += this.productivity;

@@ -3,10 +3,7 @@ TODO
 
 TECH
 ----
-- JS int overflow?
-- HMTL képernyőkép kialakítása, oszlopok, elrendezés
-- CSS stilizálás:
-    - egységesítés
+- redesign imps & gens
 
 
 STORY
