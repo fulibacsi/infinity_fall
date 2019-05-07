@@ -14,7 +14,10 @@ class Clicker
 
 	click() {
 		if (this.has_funds()) {
-            ga('send', 'event', 'Clicker', 'click', this.tier, 1);
+            gtag('event', 'click', {
+                'event_category': 'Clicker',
+                'event_label': this.tier
+            });
 			this.update_funds();
 			resource[this.tier] += this.get_production_value();
 			resource_produced[this.tier] += this.get_production_value();

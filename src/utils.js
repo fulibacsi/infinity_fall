@@ -480,7 +480,10 @@ var utils = new function() {
     // ENDINGS
 
     this.tier3a_win_ending = function() {
-        ga('send', 'event', 'Endings', 'click', 'devil_good', 1);
+        gtag('event', 'click', {
+            'event_category': 'Endings',
+            'event_label': 'devil_good'
+        });
         console.log('DEVIL WIN');
         // destruct game by removing main window
         utils.hide('main_window');
@@ -508,7 +511,10 @@ var utils = new function() {
     }
 
     this.tier3a_lose_ending = function() {
-        ga('send', 'event', 'Endings', 'click', 'devil_bad', 1);
+        gtag('event', 'click', {
+            'event_category': 'Endings',
+            'event_label': 'devil_bad'
+        });
         console.log('DEVIL LOST');
         // destruct game by removing main window
         utils.hide('main_window');
@@ -536,7 +542,10 @@ var utils = new function() {
     }
 
     this.tier2b_win_ending = function() {
-        ga('send', 'event', 'Endings', 'click', 'resist_good', 1);
+        gtag('event', 'click', {
+            'event_category': 'Endings',
+            'event_label': 'resist_good'
+        });
         console.log('RESIST WIN');
         // destruct game by removing main window
         utils.hide('main_window');
@@ -564,7 +573,10 @@ var utils = new function() {
     }
 
     this.tier2b_lose_ending = function() {
-        ga('send', 'event', 'Endings', 'click', 'resist_bad', 1);
+        gtag('event', 'click', {
+            'event_category': 'Endings',
+            'event_label': 'resist_bad'
+        });
         console.log('RESIST LOST');
         // destruct game by removing main window
         utils.hide('main_window');
@@ -592,7 +604,10 @@ var utils = new function() {
     }
 
     this.secret_ending = function() {
-        ga('send', 'event', 'Endings', 'click', 'secret', 1);
+        gtag('event', 'click', {
+            'event_category': 'Endings',
+            'event_label': 'secret'
+        });
         // destruct game by removing main window
         utils.hide('main_window');
 
@@ -630,7 +645,10 @@ var utils = new function() {
     }
 
     this.ultimate_ending = function() {
-        ga('send', 'event', 'Endings', 'click', 'ultimate', 1);
+        gtag('event', 'click', {
+            'event_category': 'Endings',
+            'event_label': 'ultimate'
+        });
         utils.filleventmodal('CONGRATULATIONS!',
                              'You found all endings!<br>Thanks for playing my game!',
                              'Whatever.');
@@ -645,7 +663,10 @@ var utils = new function() {
     // RESET
 
     this.reset = function() {
-        ga('send', 'event', 'Reset', 'click', 'reset', 1);
+        gtag('event', 'click', {
+            'event_category': 'Reset',
+            'event_label': 'reset'
+        });
         // hide everything
         var dom_elements_to_hide = [
             'header',
