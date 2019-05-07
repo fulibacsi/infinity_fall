@@ -70,7 +70,6 @@ function clicked(e){
 	e.preventDefault();
 	var tier = e.target.getAttribute('tier');
 	clickers[tier].click();
-	ga('send', 'event', ['Clicker'], ['click'], [tier], [1]);
 }
 fallingman_canvas.addEventListener("click", clicked);
 
