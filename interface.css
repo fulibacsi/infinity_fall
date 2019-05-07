@@ -8,6 +8,14 @@
                                     supported by Chrome and Opera */
 }
 
+.header {
+    background-color: rgb(192, 192, 192);
+}
+
+.achievement > img {
+    margin: 10px 0px 0px 10px;
+}
+
 .main_resource {
     font-weight: bold;
     padding: 2px 5px;
