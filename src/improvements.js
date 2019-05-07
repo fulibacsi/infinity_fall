@@ -220,7 +220,7 @@ var improvements = [
 	{
         'id': 'Book of Portal',
         'tier': 'tier3a',
-        'obj': new Improvement("tier3a", "Book of Portal", false, 150, 1.20, clickers['tier3a'], utils.improve),
+        'obj': new Improvement("tier3a", "Book of Portal", 1, 150, 1.20, clickers['tier3a'], utils.improve),
         'threshold': 0,
         'req_improvements': [],
         'req_generators': [],
@@ -229,7 +229,7 @@ var improvements = [
 	{
         'id': 'Book of Birth',
         'tier': 'tier3a',
-        'obj': new Improvement("tier3a", "Book of Birth", false, 500, 1.15, clickers['tier3a'], utils.improve),
+        'obj': new Improvement("tier3a", "Book of Birth", 1, 500, 1.15, clickers['tier3a'], utils.improve),
         'threshold': 0,
         'req_improvements': ['Summoning Ritual', 'Book of Portal'],
         'req_generators': [],

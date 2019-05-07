@@ -20,9 +20,11 @@ class Generator
         this.productivity_display = document.createElement("span");
 		this.productivity_display.id = this.name + "_productivity";
 
+        this.production_cost_display = document.createElement("span");
+        this.production_cost_display.id = this.name + "_production_cost_display";
+
 		this.interactive_area = document.createElement('span');
 		this.interactive_area.id = this.name + '_interactive_area';
-
 
         this.price_display = document.createElement("span");
         this.price_display.id = this.name + "_price";
@@ -44,6 +46,11 @@ class Generator
         this.interactive_area.append(this.button);
         this.interactive_area.append(this.productivity_display);
         this.interactive_area.append(document.createTextNode(" " + resource_names[this.tier]+ " / sec"));
+        if (this.production_cost !== false) {
+            this.interactive_area.append(document.createTextNode(" for "));
+            this.interactive_area.append(this.production_cost_display);
+            this.interactive_area.append(document.createTextNode(" " + resource_names[this.production_cost.tier]));
+        }
         this.interactive_area.append(document.createElement("br"));
 
         // put together
@@ -83,7 +90,10 @@ class Generator
 	renew_display() {
 		this.level_display.innerHTML = this.level;
 		this.productivity_display.innerHTML = utils.formatWithCommas(this.get_production_value());
-		this.price_display.innerHTML = utils.formatWithCommas(this.get_price());
+        this.price_display.innerHTML = utils.formatWithCommas(this.get_price());
+        if (this.production_cost !== false) {
+            this.production_cost_display.innerHTML = this.get_cost();
+        }
 	}
 
 	set_visible() {
@@ -253,7 +263,7 @@ var generators = [
     {
         'id': 'Summon Portal',
         'tier': 'tier3a',
-        'obj': new Generator("tier3a", "Liberate", 2, {'tier': 'tier2a', 'value': 1}, 200, 1.13),
+        'obj': new Generator("tier3a", "Summon Portal", 2, {'tier': 'tier2a', 'value': 1}, 200, 1.13),
         'threshold': 50,
         'req_improvements': ['Book of Portal'],
         'req_generators': [],
