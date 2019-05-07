@@ -24,25 +24,41 @@ class Improvement
 
 		this.price_display = document.createElement("span");
 		this.price_display.id = this.name + "_price";
+		this.price_area = document.createElement('span');
+		this.price_area.id = this.name + "_price_area";
+		this.price_area.append(document.createTextNode("Cost: "));
+		this.price_area.append(this.price_display);
+		this.price_area.append(document.createTextNode(" " + resource_names[this.tier]));
+		this.price_area.append(document.createElement("br"));
 
 		this.caption = document.createElement("span");
-		this.caption.append(document.createTextNode("Buy ("));
-		this.caption.append(this.price_display);
-		this.caption.append(document.createTextNode(")"));
+		this.caption.id = this.name + '_caption';
+		var b = document.createElement('b');
+		b.append(document.createTextNode("[" + this.name + "]"));
+		this.caption.append(b);
+		this.caption.append(document.createElement('br'));
+		this.caption.classList.add('hidden');
+		utils.hide(this.caption.id);
 
 		this.button = document.createElement("div");
 		this.button.classList.add('button');
 		this.button.id = this.name + '_button';
 		this.button.onclick = this.improve.bind(this);
-		this.button.append(this.caption);
+		this.button.append(document.createTextNode(this.name));
+		if (this.maxlevel === false) {
+			this.button.append(document.createTextNode(" ("));
+			this.button.append(this.level_display);
+			this.button.append(document.createTextNode(")"));
+		}
+
 
 		this.interactive_area.append(this.button);
+		this.interactive_area.append(document.createElement("br"));
 
 		// put together
-		this.area.append(document.createTextNode(name + " Level: "));
-		this.area.append(this.level_display);
+		this.area.append(this.caption);
 		this.area.append(this.interactive_area);
-		this.area.append(document.createElement("br"));
+		this.area.append(this.price_area);
 	}
 
 	get_price() {
@@ -63,14 +79,18 @@ class Improvement
 		}
 
 		if (this.is_maxed()) {
-			utils.disable(this.button);
+			utils.disable(this.button.id);
+			utils.hide(this.interactive_area.id);
+			utils.hide(this.name + "_price_area");
+			utils.reveal(this.caption.id);
 		}
 	}
 
 	renew_display() {
 		if  (this.is_maxed()) {
-			this.level_display.innerHTML = 'MAX';
 			utils.hide(this.interactive_area.id);
+			utils.hide(this.name + "_price_area");
+			utils.reveal(this.caption.id);
 		} else {
 			this.level_display.innerHTML = this.level;
 			this.price_display.innerHTML = utils.formatWithCommas(this.get_price());
@@ -88,6 +108,14 @@ class Improvement
 
 	not_maxed() {
 		return (this.maxlevel === false || this.level < this.maxlevel);
+	}
+
+	reset() {
+		this.level = 0;
+		utils.hide(this.caption.id);
+		utils.enable(this.button.id);
+		utils.reveal(this.button);
+		utils.reveal(this.interactive_area);
 	}
 }
 
@@ -181,47 +209,47 @@ var improvements = [
 
 	// TIER 3a
 	{
-        'id': 'Public speech',
+        'id': 'Summoning Ritual',
         'tier': 'tier3a',
-        'obj': new Improvement("tier3a", "Public speech", false, 50, 1.25, clickers['tier3a'], utils.improve),
+        'obj': new Improvement("tier3a", "Summoning Ritual", false, 50, 1.25, clickers['tier3a'], utils.improve),
         'threshold': 0,
         'req_improvements': [],
         'req_generators': [],
         'enabled': 0
 	},
 	{
-        'id': 'Leadership',
+        'id': 'Book of Portal',
         'tier': 'tier3a',
-        'obj': new Improvement("tier3a", "Leadership", false, 150, 1.20, clickers['tier3a'], utils.improve),
+        'obj': new Improvement("tier3a", "Book of Portal", false, 150, 1.20, clickers['tier3a'], utils.improve),
         'threshold': 0,
         'req_improvements': [],
         'req_generators': [],
         'enabled': 0
 	},
 	{
-        'id': 'Propaganda',
+        'id': 'Book of Birth',
         'tier': 'tier3a',
-        'obj': new Improvement("tier3a", "Propaganda", false, 500, 1.15, clickers['tier3a'], utils.improve),
+        'obj': new Improvement("tier3a", "Book of Birth", false, 500, 1.15, clickers['tier3a'], utils.improve),
         'threshold': 0,
-        'req_improvements': ['Public speech', 'Leadership'],
+        'req_improvements': ['Summoning Ritual', 'Book of Portal'],
         'req_generators': [],
         'enabled': 0
 	},
 	{
-        'id': 'Personal cult',
+        'id': 'Portal Enhancer',
         'tier': 'tier3a',
-        'obj': new Improvement("tier3a", "Personal cult", false, 1500, 1.25, clickers['tier3a'], utils.improve),
+        'obj': new Improvement("tier3a", "Portal Enhancer", false, 1500, 1.25, clickers['tier3a'], utils.improve),
         'threshold': 0,
-        'req_improvements': ['Propaganda'],
+        'req_improvements': ['Book of Portal'],
         'req_generators': [],
         'enabled': 0
 	},
 	{
-        'id': 'Dictatorship',
+        'id': 'Book of Command',
         'tier': 'tier3a',
-        'obj': new Improvement("tier3a", "Dictatorship", 1, 150000, 1.25, clickers['tier3a'], utils.improve),
+        'obj': new Improvement("tier3a", "Book of Command", 1, 150000, 1.25, clickers['tier3a'], utils.improve),
         'threshold': 0,
-        'req_improvements': ['Propaganda', 'Personal cult'],
+        'req_improvements': ['Book of Portal', 'Book of Birth'],
         'req_generators': [],
         'enabled': 0
 	},

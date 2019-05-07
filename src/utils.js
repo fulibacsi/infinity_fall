@@ -743,12 +743,12 @@ var utils = new function() {
         test_generator2b.level = 0;
 
         for (generator of generators) {
-            generator.obj.level = 0;
+            generator.obj.reset();
             generator.enabled = 0;
         }
 
         for (improvement of improvements) {
-            improvement.obj.level = 0;
+            improvement.obj.reset();
             improvement.enabled = 0;
         }
 
@@ -772,6 +772,10 @@ var utils = new function() {
             event.triggered = 0;
         }
 
+        // animation reset
+        for (ticker in animation_tickers) {
+            clearInterval(animation_tickers[ticker]);
+        }
         fallingman_image_list = [images['wall'], images['man'],];
 
         req_balance_time = 10 * 60 * 2;

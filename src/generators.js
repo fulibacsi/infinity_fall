@@ -17,37 +17,38 @@ class Generator
 		this.level_display = document.createElement("span");
 		this.level_display.id = this.name + "_level";
 
-		this.productivity_display = document.createElement("span");
+        this.productivity_display = document.createElement("span");
 		this.productivity_display.id = this.name + "_productivity";
 
 		this.interactive_area = document.createElement('span');
 		this.interactive_area.id = this.name + '_interactive_area';
 
-		this.price_display = document.createElement("span");
-		this.price_display.id = this.name + "_price";
 
-		this.caption = document.createElement("span");
-		this.caption.append(document.createTextNode("Buy ("));
-		this.caption.append(this.price_display);
-		this.caption.append(document.createTextNode(")"));
+        this.price_display = document.createElement("span");
+        this.price_display.id = this.name + "_price";
+
+        this.price_area = document.createElement("span");
+		this.price_area.append(document.createTextNode("Cost: "));
+		this.price_area.append(this.price_display);
+		this.price_area.append(document.createTextNode(" " + resource_names[this.tier]));
 
 		this.button = document.createElement("div");
 		this.button.classList.add('button');
 		this.button.id = this.name + '_button';
 		this.button.onclick = this.improve.bind(this);
-		this.button.append(this.caption);
+        this.button.append(document.createTextNode(this.name));
+        this.button.append(document.createTextNode(" ("));
+        this.button.append(this.level_display);
+        this.button.append(document.createTextNode(")"));
 
-		this.interactive_area.append(this.button);
+        this.interactive_area.append(this.button);
+        this.interactive_area.append(this.productivity_display);
+        this.interactive_area.append(document.createTextNode(" " + resource_names[this.tier]+ " / sec"));
+        this.interactive_area.append(document.createElement("br"));
 
-		// put together
-		this.area.append(document.createTextNode(name + " Level: "));
-		this.area.append(this.level_display);
-		this.area.append(document.createElement("br"));
-
-		this.area.append(document.createTextNode(resource_names[this.tier] + " per Second: "));
-		this.area.append(this.productivity_display);
-
-		this.area.append(this.interactive_area);
+        // put together
+        this.area.append(this.interactive_area);
+        this.area.append(this.price_area);
 		this.area.append(document.createElement("br"));
 
 		// keep producing
@@ -96,7 +97,6 @@ class Generator
 			resource[this.tier] += this.get_production_value();
 			resource_produced[this.tier] += this.get_production_value();
 		}
-
 	}
 
 	get_production_value() {
@@ -128,7 +128,11 @@ class Generator
 			resource_display[this.production_cost.tier].innerHTML = utils.formatWithCommas(resource[this.production_cost.tier]);
 			resources_produced_display[this.production_cost.tier].innerHTML = utils.formatWithCommas(resource_produced[this.production_cost.tier]);
 		}
-	}
+    }
+
+    reset() {
+        this.level = 0;
+    }
 }
 
 
@@ -238,39 +242,39 @@ var generators = [
 
     // TIER 3a
     {
-        'id': 'Convince',
+        'id': 'Summon Stone',
         'tier': 'tier3a',
-        'obj': new Generator("tier3a", "Convince power", 1, {'tier': 'tier2a', 'value': 1}, 100, 1.20),
+        'obj': new Generator("tier3a", "Summon Stone", 1, {'tier': 'tier2a', 'value': 1}, 100, 1.20),
         'threshold': 50,
-        'req_improvements': ['Public speech'],
+        'req_improvements': ['Summoning Ritual'],
         'req_generators': [],
         'enabled': 0
     },
     {
-        'id': 'Liberate',
+        'id': 'Summon Portal',
         'tier': 'tier3a',
         'obj': new Generator("tier3a", "Liberate", 2, {'tier': 'tier2a', 'value': 1}, 200, 1.13),
         'threshold': 50,
-        'req_improvements': ['Leadership'],
+        'req_improvements': ['Book of Portal'],
         'req_generators': [],
         'enabled': 0
     },
     {
-        'id': 'Trick',
+        'id': 'Birth Canal',
         'tier': 'tier3a',
-        'obj': new Generator("tier3a", "Trick", 100, {'tier': 'tier2a', 'value': 1.02}, 1000, 1.20),
+        'obj': new Generator("tier3a", "Birth Canal", 100, {'tier': 'tier2a', 'value': 1.02}, 1000, 1.20),
         'threshold': 700,
-        'req_improvements': ['Propaganda'],
-        'req_generators': ['Convince'],
+        'req_improvements': ['Book of Birth'],
+        'req_generators': ['Summon Portal'],
         'enabled': 0
     },
     {
-        'id': 'Lead',
+        'id': 'Summon Gate',
         'tier': 'tier3a',
         'obj': new Generator("tier3a", "Lead", 1000, {'tier': 'tier2a', 'value': 1.05}, 5000, 1.21),
         'threshold': 2500,
-        'req_improvements': ['Propaganda'],
-        'req_generators': ['Convince', 'Trick'],
+        'req_improvements': ['Book of Portal', 'Portal Enhancer'],
+        'req_generators': ['Summon Portal'],
         'enabled': 0
     },
     {
@@ -278,17 +282,17 @@ var generators = [
         'tier': 'tier3a',
         'obj': new Generator("tier3a", "Command", 10000, {'tier': 'tier2a', 'value': 1.06}, 50000, 1.23),
         'threshold': 25000,
-        'req_improvements': ['Propaganda'],
-        'req_generators': ['Convince', 'Trick'],
+        'req_improvements': ['Book of Command'],
+        'req_generators': ['Summon Gate', 'Birth Canal'],
         'enabled': 0
     },
     {
-        'id': 'Force',
+        'id': 'Order',
         'tier': 'tier3a',
         'obj': new Generator("tier3a", "Force", 100000, {'tier': 'tier2a', 'value': 1.04}, 150000, 1.25),
         'threshold': 75000,
-        'req_improvements': ['Propaganda'],
-        'req_generators': ['Convince', 'Trick', 'Command'],
+        'req_improvements': ['Book of Command'],
+        'req_generators': ['Command'],
         'enabled': 0
     },
 

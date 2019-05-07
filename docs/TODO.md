@@ -32,17 +32,3 @@ RESISTANCE STORYLINE [DONE]
 
 WAKE UP STORYLINE [DONE]
 - event: jobb klikk -> valami custom menü (wake up: GAME OVER) [DONE]
-
-
-ART
----
-- szárnyas imp
-- kis ember, minimális animmal
-- tüzes gödör
-- ember az üstben
-- halvány szempár [DONE]
-- élénk szempár
-
-opcionális:
-- improvementeknek, generátoroknak ikon?
-- SND saját shout hangok?
