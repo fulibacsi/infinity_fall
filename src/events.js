@@ -207,6 +207,14 @@ var events = [
                          [{'tier': 'tier2a', 'variable': 'resource', 'relation': '>=', 'value': 7500000000}], utils.tier3a_lose_ending, []),
         'triggered': 0
     },
+    {
+        'id': 'tier3a_add_minion_0',
+        'tier': 'tier3a',
+        'obj': new Event('tier3a_add_minion_0',
+                         [{'key': 'tier3a_resource_unlock', 'relation': 'triggered'},
+                          {'tier': 'tier3a', 'variable': 'resource_produced', 'relation': '>=', 'value': 10}], utils.tier3a_add_minion, [1]),
+        'triggered': 0
+    },
     // TIER 2b
     {
         'id': 'tier2b_improvement_unlock',

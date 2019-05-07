@@ -263,6 +263,28 @@ var utils = new function() {
         return result;
     }
 
+    this.tier3a_add_minion = function(level) {
+        // add minion to anim
+        utils.add_minions();
+
+        // add next level event
+        var name = 'tier3a_add_minion_' + level;
+        var prev_event = 'tier3a_add_minion_' + (level - 1);
+        var res_req = 10 * Math.pow(10, level);
+        var event = {
+            'id': name,
+            'tier': 'tier3a',
+            'obj': new Event(name,
+                             [{'key': prev_event, 'relation': 'triggered'},
+                              {'tier': 'tier3a', 'variable': 'resource_produced', 'relation': '>=', 'value': res_req}],
+                             utils.tier3a_add_minion, [level + 1]),
+            'triggered': 0
+        }
+
+        events.push(event);
+    }
+
+
     this.add_next_level = function(level) {
         improvements.push(utils.improvement_factory(level));
         generators.push(utils.generator_factory(level));
@@ -292,6 +314,12 @@ var utils = new function() {
 
     this.add_eyes = function() {
         fallingman_image_list.splice(0, 0, images['eyes']);
+    }
+
+    this.add_minions = function() {
+        var minion = images['minion'][0];
+        var img = [minion, [utils.randint(0, 192), utils.randint(0, 192)]];
+        follower_summon_image_list.push(img);
     }
 
     // EVENT HANDLERS
@@ -366,6 +394,9 @@ var utils = new function() {
 
         // activate event
         utils.filleventmodal("Good-good", "Now collect me souls!", "As you wish... Master");
+        animation_tickers['winged'] = setInterval(animations.flip, anim_tick_time,
+                                                  wingedman_canvas, wingedman_context,
+                                                  wingedman_image_list, wingedman_text_list);
         wingedman_canvas.addEventListener("click", clicked);
         utils.hide('tier1');
         utils.reveal('tier2a');
@@ -386,11 +417,14 @@ var utils = new function() {
 
         // activate event
         console.log('NO!');
-        utils.filleventmodal("Then suffer for all eternity!", "", "You won't break me!");
+        utils.filleventmodal("Then suffer for all eternity!",
+                             "", "You won't break me!");
+        animation_tickers['burning'] = setInterval(animations.flip, anim_tick_time,
+                                                  burningman_canvas, burningman_context,
+                                                  burningman_image_list, burningman_text_list);
         burningman_canvas.addEventListener("click", clicked);
         utils.hide('tier1');
         utils.reveal('tier2b');
-        // utils.tier2b_lose_ending();
     }
 
     this.tier1_tier2_rightclick = function() {
@@ -403,6 +437,9 @@ var utils = new function() {
                              'You can use souls to populate earth.',
                              'OK');
         utils.reveal('tier3a');
+        animation_tickers['minion'] = setInterval(animations.flip, anim_tick_time,
+                                                  follower_summon_canvas, follower_summon_context,
+                                                  follower_summon_image_list, follower_summon_text_list);
         follower_summon_canvas.addEventListener("click", clicked);
     }
 

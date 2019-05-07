@@ -50,13 +50,61 @@ var animations = new function() {
         }
         eyes.source.src = './assets/imgs/eyes.png'
 
+        // TIER 2a
+        var winged_man = {
+            'id': 'imp-img',
+            'source': new Image(),
+            'current': 0,
+            'total_frames': 16,
+            'width': 32,
+            'height': 32
+        };
+        winged_man.source.src = './assets/imgs/winged_man.png'
+
+        // TIER 2b
+        var burning_man = {
+            'id': 'burn-img',
+            'source': new Image(),
+            'current': 0,
+            'total_frames': 28,
+            'width': 32,
+            'height': 32
+        };
+        burning_man.source.src = './assets/imgs/burning_man.png'
+
+        var pit =  {
+            'id': 'pit-img',
+            'source': new Image(),
+            'current': 0,
+            'total_frames': 18,
+            'width': 200,
+            'height': 200
+        };
+        pit.source.src = './assets/imgs/pit.png'
+
+        // TIER 3a
+        var minion = {
+            'id': 'minion-img',
+            'source': new Image(),
+            'current': 0,
+            'total_frames': 8,
+            'width': 16,
+            'height': 16
+        };
+        minion.source.src = './assets/imgs/minion.png'
+
 
         return {
             'wall': [wall, [0, 0]],
             'man': [man, [70, 70]],
             'mute': [mute, [190, 190]],
             'sub':  [subtitle, [180, 190]],
-            'eyes': [eyes, [60, 50]]
+            'eyes': [eyes, [60, 50]],
+            'winged': [winged_man, [70, 70]],
+            'pit': [pit, [0, 0]],
+            'burning': [burning_man, [70, 168]],
+            'minion': [minion, [0, 0]],
+
         };
     }
 
@@ -134,7 +182,9 @@ var texts = {
     'A': ['AAAAAAA', '#FFFFFF', [60, 60]]
 }
 
+
 // TIER 1 CANVAS
+
 // main canvas setup
 var fallingman_canvas = document.getElementById('fallingman_canvas');
 var fallingman_context = fallingman_canvas.getContext("2d");
@@ -147,16 +197,39 @@ var fallingman_text_list = [];
 var sound_canvas = document.getElementById('sound_canvas');
 var sound_context = sound_canvas.getContext("2d");
 
-//TIER 2 CANVAS
+
+// TIER 2 CANVAS
+
 // main canvas
 var wingedman_canvas = document.getElementById('wingedman_canvas');
 var wingedman_context = wingedman_canvas.getContext('2d');
+
+// initally only the falling man and the wall can be seen
+var wingedman_image_list = [images['pit'], images['winged'],];
+var wingedman_text_list = [];
 
 // progressbar canvas
 var soul_canvas = document.getElementById('soul_canvas');
 var soul_context = soul_canvas.getContext('2d');
 
-//TIER 3 CANVAS
+
+// TIER 2b CANVAS
+
+// main canvas
+var burningman_canvas = document.getElementById('burningman_canvas');
+var burningman_context = burningman_canvas.getContext('2d');
+
+// initally only the falling man and the wall can be seen
+var burningman_image_list = [images['pit'], images['burning'],];
+var burningman_text_list = [];
+
+
+// TIER 3 CANVAS
+
 // main canvas
 var follower_summon_canvas = document.getElementById('follower_summon_canvas');
 var follower_summon_context = follower_summon_canvas.getContext('2d');
+
+// initally only the falling man and the wall can be seen
+var follower_summon_image_list = [images['pit'],];
+var follower_summon_text_list = [];
